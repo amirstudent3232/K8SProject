@@ -1,8 +1,13 @@
+import boto3
 import telebot
 from loguru import logger
 import os
 import time
 from telebot.types import InputFile
+import requests
+import json
+
+REGION_NAME = os.environ['REGION_NAME']
 
 
 class Bot:
@@ -11,11 +16,14 @@ class Bot:
         # create a new instance of the TeleBot class.
         # all communication with Telegram servers are done using self.telegram_bot_client
         self.telegram_bot_client = telebot.TeleBot(token)
+
         # remove any existing webhooks configured in Telegram servers
         self.telegram_bot_client.remove_webhook()
         time.sleep(0.5)
+
         # set the webhook URL
         self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', timeout=60)
+
         logger.info(f'Telegram Bot information\n\n{self.telegram_bot_client.get_me()}')
 
     def send_text(self, chat_id, text):
@@ -32,20 +40,25 @@ class Bot:
         Downloads the photos that sent to the Bot to `photos` directory (should be existed)
         :return:
         """
+        # could also be return non instead of run time error
         if not self.is_current_msg_photo(msg):
             raise RuntimeError(f'Message content of type \'photo\' expected')
+        else:
+            try:
+                file_info = self.telegram_bot_client.get_file(msg['photo'][-1]['file_id'])
+                data = self.telegram_bot_client.download_file(file_info.file_path)
+                folder_name = file_info.file_path.split('/')[0]
 
-        file_info = self.telegram_bot_client.get_file(msg['photo'][-1]['file_id'])
-        data = self.telegram_bot_client.download_file(file_info.file_path)
-        folder_name = file_info.file_path.split('/')[0]
+                if not os.path.exists(folder_name):
+                    os.makedirs(folder_name)
 
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
+                with open(file_info.file_path, 'wb') as photo:
+                    photo.write(data)
 
-        with open(file_info.file_path, 'wb') as photo:
-            photo.write(data)
-
-        return file_info.file_path
+                return file_info.file_path
+            except Exception as e:
+                logger.error(f'Error Downloading Photo: {e}')
+                return None
 
     def send_photo(self, chat_id, img_path):
         if not os.path.exists(img_path):
