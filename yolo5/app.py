@@ -11,6 +11,7 @@ import json
 
 images_bucket = os.environ['BUCKET_NAME']
 queue_name = os.environ['SQS_QUEUE_NAME']
+queue_url = os.environ['SQS_QUEUE_URL']
 REGION_NAME = os.environ['REGION_NAME']
 s3_bucket = os.environ['s3_bucket']
 dynamo_tabel = os.environ['dynamo_tabele']
@@ -26,7 +27,7 @@ with open("data/coco128.yaml", "r") as stream:
 
 def consume():
     while True:
-        response = sqs_client.receive_message(QueueUrl=queue_name, MaxNumberOfMessages=1, WaitTimeSeconds=5)
+        response = sqs_client.receive_message(QueueUrl=queue_url, MaxNumberOfMessages=1, WaitTimeSeconds=5)
 
         if 'Messages' in response:
             message = response['Messages'][0]['Body']
@@ -102,7 +103,7 @@ def consume():
                 # TODO perform a GET request to Polybot to `/results` endpoint
             requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/$prediction_id=prediction_id chat_id=chat_id original_img_path=original_img_path predicted_img_path=predicted_img_path time=time')
             # Delete the message from the queue as the job is considered as DONE
-            sqs_client.delete_message(QueueUrl=queue_name, ReceiptHandle=receipt_handle)
+            sqs_client.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
 
 
 if __name__ == "__main__":
