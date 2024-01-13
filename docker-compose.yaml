@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
   polybot:
-    container_name: poly-aws
+    container_name: poly
     image: poly-aws-local:1.0
     networks:
       - aws
