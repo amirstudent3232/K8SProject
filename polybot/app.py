@@ -57,7 +57,7 @@ def webhook():
 @app.route(f'/results/', methods=['GET'])
 def results():
     prediction_id = request.args.get('predictionId')
-    chat_id = request.get('chat_id')
+    chat_id = request.args.get('chat_id')
     # TODO use the prediction_id to retrieve results from DynamoDB and send to the end-user
     dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
     table = dynamodb.Table('ShermanAWSdynamoDB')

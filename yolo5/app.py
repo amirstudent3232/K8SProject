@@ -13,7 +13,6 @@ images_bucket = os.environ['BUCKET_NAME']
 queue_name = os.environ['SQS_QUEUE_NAME']
 queue_url = os.environ['SQS_QUEUE_URL']
 REGION_NAME = os.environ['REGION_NAME']
-s3_bucket = os.environ['s3_bucket']
 dynamo_tabel = os.environ['dynamo_tabele']
 
 sqs_client = boto3.client('sqs', region_name=REGION_NAME)
@@ -101,7 +100,7 @@ def consume():
                      ReturnConsumedCapacity='TOTAL', TableName=dynamo_tabel)
 
                 # TODO perform a GET request to Polybot to `/results` endpoint
-            requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/$prediction_id=prediction_id chat_id=chat_id original_img_path=original_img_path predicted_img_path=predicted_img_path time=time')
+            requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')
             # Delete the message from the queue as the job is considered as DONE
             sqs_client.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
 
