@@ -40,10 +40,8 @@ def consume():
             message_replace1 = message.replace("'", '"')
             message_replace2 = message_replace1.replace("False", '"False"')
             message_dict = json.loads(message_replace2)
-            image_name = message_dict.get('caption')  # TODO extract from message
-            chat_id = message_dict.get('chat_id')
-            local_dir = 'photos/'  # str of dir to save to
-            os.makedirs(local_dir, exist_ok=True)  # make sure the dir exists
+            image_name = message_dict['caption']# TODO extract from message
+            chat_id = message_dict['from']['id']
             original_img_path = (f'/usr/src/app/{image_name}')
             s3_client.download_file(images_bucket, image_name, original_img_path)  # TODO download img_name from S3,
 

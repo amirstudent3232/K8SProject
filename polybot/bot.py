@@ -87,8 +87,12 @@ class ObjectDetectionBot(Bot):
 
             # TODO upload the photo to S3
             s3_client = boto3.client('s3')
-            img_name = photo_path.split('/')[-1]
-            s3_client.upload_file(photo_path, BUCKET_NAME, img_name)
+            if 'caption' in msg:
+                caption = msg['caption']
+            else:
+                msg['caption'] = 'no-caption' + "_" + time.time()
+                caption = msg['caption']
+            s3_client.upload_file(photo_path, BUCKET_NAME, caption)
             # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
             # TODO send a job to the SQS queue
             sqs_client = boto3.client('sqs', region_name = REGION_NAME)
