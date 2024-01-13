@@ -8,7 +8,7 @@ import requests
 import json
 
 REGION_NAME = os.environ['REGION_NAME']
-sqs_url = os.environ['SQS_URL']
+sqs_url = os.environ['SQS_QUEUE_URL']
 
 class Bot:
 

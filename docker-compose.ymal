@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  yolo5:
+    container_name: yolo
+    image: yolo5-aws-local:1.0
+    networks:
+      - aws
+    volumes:
+      -  $HOME/.aws/credentials:/root/.aws/credentials
+
+    environment:
+        BUCKET_NAME: $BUCKET_NAME
+        dynamo_table: $dynamo_table
+        REGION_NAME: $REGION_NAME
+        SQS_QUEUE_URL: $SQS_QUEUE_URL
+
+    env_file:
+      - .env
+  polybot:
+    container_name: poly-aws
+    image: poly-aws-local:1.0
+    networks:
+      - aws
+    ports:
+      - "8443:8443"
+    volumes:
+      - $HOME/.aws/credentials:/root/.aws/credentials
+
+    environment:
+
+        BUCKET_NAME: $BUCKET_NAME
+        dynamo_table: $dynamo_table
+        REGION_NAME: $REGION_NAME
+        SQS_QUEUE_NAME: $SQS_QUEUE_NAME
+        SQS_QUEUE_URL: $SQS_QUEUE_URL
+        TELEGRAM_APP_URL: $TELEGRAM_APP_URL
+
+  env_file:
+    .env
+
+  networks:
+      aws:
+        driver: bridge
