@@ -88,9 +88,9 @@ class ObjectDetectionBot(Bot):
             # TODO upload the photo to S3
             s3_client = boto3.client('s3')
             if 'caption' in msg:
-                caption = msg['caption']
+                caption = msg['caption'] + "_" + str(time.time() + '.jpeg')
             else:
-                msg['caption'] = 'no-caption' + "_" + time.time()
+                msg['caption'] = 'no-caption' + "_" + str(time.time() + '.jpeg')
                 caption = msg['caption']
             s3_client.upload_file(photo_path, BUCKET_NAME, caption)
             # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
