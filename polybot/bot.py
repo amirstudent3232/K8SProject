@@ -9,6 +9,8 @@ import json
 
 REGION_NAME = os.environ['REGION_NAME']
 sqs_url = os.environ['SQS_QUEUE_URL']
+BUCKET_NAME = os.environ['BUCKET_NAME']
+
 
 class Bot:
 
@@ -77,15 +79,16 @@ class Bot:
 
 class ObjectDetectionBot(Bot):
     def handle_message(self, msg):
+
         logger.info(f'Incoming message: {msg}')
 
         if self.is_current_msg_photo(msg):
             photo_path = self.download_user_photo(msg)
 
             # TODO upload the photo to S3
-            s3_bucket = "sherman3"
+            s3_client = boto3.client('s3')
             img_name = photo_path.split('/')[-1]
-            self.s3_client.upload_file(photo_path, s3_bucket, img_name)
+            self.s3_client.upload_file(photo_path, BUCKET_NAME, img_name)
             # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
             # TODO send a job to the SQS queue
             sqs_client = boto3.client('sqs', region_name = REGION_NAME)
