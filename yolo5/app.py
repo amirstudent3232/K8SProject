@@ -1,15 +1,24 @@
 import time
 from pathlib import Path
+import requests
 from detect import run
 import yaml
 from loguru import logger
 import os
 import boto3
+import json
+
 
 images_bucket = os.environ['BUCKET_NAME']
 queue_name = os.environ['SQS_QUEUE_NAME']
+REGION_NAME = os.environ['REGION_NAME']
+s3_bucket = os.environ['s3_bucket']
+dynamo_tabel = os.environ['dynamo_tabele']
 
-sqs_client = boto3.client('sqs', region_name='YOUR_REGION_HERE')
+sqs_client = boto3.client('sqs', region_name=REGION_NAME)
+s3_client = boto3.client('s3')
+dynamo_client = boto3.client('dynamodb', region_name=REGION_NAME)
+
 
 with open("data/coco128.yaml", "r") as stream:
     names = yaml.safe_load(stream)['names']
@@ -25,20 +34,16 @@ def consume():
 
             # Use the ReceiptHandle as a prediction UUID
             prediction_id = response['Messages'][0]['MessageId']
-
             logger.info(f'prediction: {prediction_id}. start processing')
 
             # Receives a URL parameter representing the image to download from S3
-            s3_photo_path = message_data.get('s3_photo_path')  # TODO extract from message
-            chat_id = message_data.get('chat_id')
-            img_name = message_data.get('img_name')
+            message_dict = json.loads(message)
+            image_name = message_dict.get('caption')  # TODO extract from message
+            chat_id = message_dict.get('chat_id')
             local_dir = 'photos/'  # str of dir to save to
             os.makedirs(local_dir, exist_ok=True)  # make sure the dir exists
-            img_name = photo_download.split('/')[-1]
-            original_img_path = img_name
-            s3.download_file(images_bucket, s3_photo_path, original_img_path)  # TODO download img_name from S3,
-            photo_download = self.download_user_photo(msg)
-            s3_bucket = "sherman3"
+            original_img_path = (f'/usr/src/app/{image_name}')
+            s3_client.download_file(images_bucket, image_name, original_img_path)  # TODO download img_name from S3,
 
             logger.info(f'prediction: {prediction_id}/{original_img_path}. Download img completed')
 
@@ -81,12 +86,21 @@ def consume():
                     'original_img_path': original_img_path,
                     'predicted_img_path': predicted_img_path,
                     'labels': labels,
-                    'time': time.time()
+                    'time': str(time.time())
                 }
 
                 # TODO store the prediction_summary in a DynamoDB table
-                # TODO perform a GET request to Polybot to `/results` endpoint
+                dynamo_client.put_item(Item={'prediction_id': {'S': prediction_summary['prediction_id']},
+                    'chat_id': {'S': str(chat_id)},
+                    'original_path_img': {'S': prediction_summary['original_img_path']},
+                    'predicted_img_path': {
+                    'S': str(prediction_summary['predicted_img_path'])},
+                    'labels': {'S': str(prediction_summary['labels'])},
+                    'time': {'S': str(prediction_summary['time'])}},
+                     ReturnConsumedCapacity='TOTAL', TableName=dynamo_tabel)
 
+                # TODO perform a GET request to Polybot to `/results` endpoint
+            requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/$prediction_id=prediction_id chat_id=chat_id original_img_path=original_img_path predicted_img_path=predicted_img_path time=time')
             # Delete the message from the queue as the job is considered as DONE
             sqs_client.delete_message(QueueUrl=queue_name, ReceiptHandle=receipt_handle)
 

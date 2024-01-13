@@ -15,6 +15,7 @@ REGION_NAME = os.environ['REGION_NAME']
 # TODO load TELEGRAM_TOKEN value from Secret Manager shermanawsproject
 def get_secret():
     secret_name = "shermanawsproject"
+    region_name = "eu-north-1"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -65,7 +66,7 @@ def results():
         response = table.get_item(
             Key={
                 'prediction_id': prediction_id,
-                'ChatID': chat_id,
+                'chat_id': chat_id,
             }
         )
         item = response.get('Item')

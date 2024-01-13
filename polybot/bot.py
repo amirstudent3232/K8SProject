@@ -8,7 +8,7 @@ import requests
 import json
 
 REGION_NAME = os.environ['REGION_NAME']
-
+sqs_url = os.environ['SQS_URL']
 
 class Bot:
 
@@ -83,13 +83,12 @@ class ObjectDetectionBot(Bot):
             photo_path = self.download_user_photo(msg)
 
             # TODO upload the photo to S3
-            def handle_message(self, msg):
-                photo_download = self.download_user_photo(msg)
-                s3_bucket = "sherman3"
-                img_name = photo_download.split('/')[-1]
-                self.s3_client.upload_file(photo_download, s3_bucket, img_name)
-                # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
-                chat_id = message_data.get('chat_id')  # amir...
-                self.send_text(chat_id, "Your image is being processed. Please wait...")
-                # TODO send a job to the SQS queue
-                sqs_client.delete_message(QueueUrl=queue_name, ReceiptHandle=receipt_handle)
+            s3_bucket = "sherman3"
+            img_name = photo_path.split('/')[-1]
+            self.s3_client.upload_file(photo_path, s3_bucket, img_name)
+            # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
+            # TODO send a job to the SQS queue
+            sqs_client = boto3.client('sqs', region_name = REGION_NAME)
+            sqs_client.send_message(QueueUrl=sqs_url, DelaySeconds = 10, MessageBody = str(msg))
+            chat_id = msg.get('chat_id')  # amir...
+            self.send_text(chat_id, "Your image is being processed. Please wait...")
