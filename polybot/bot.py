@@ -88,10 +88,11 @@ class ObjectDetectionBot(Bot):
             # TODO upload the photo to S3
             s3_client = boto3.client('s3')
             img_name = photo_path.split('/')[-1]
-            self.s3_client.upload_file(photo_path, BUCKET_NAME, img_name)
+            s3_client.upload_file(photo_path, BUCKET_NAME, img_name)
             # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
             # TODO send a job to the SQS queue
             sqs_client = boto3.client('sqs', region_name = REGION_NAME)
             sqs_client.send_message(QueueUrl=sqs_url, DelaySeconds = 10, MessageBody = str(msg))
-            chat_id = msg.get('chat_id')  # amir...
+
+            chat_id = msg['from']['id']  # amir...
             self.send_text(chat_id, "Your image is being processed. Please wait...")
