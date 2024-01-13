@@ -37,7 +37,9 @@ def consume():
             logger.info(f'prediction: {prediction_id}. start processing')
 
             # Receives a URL parameter representing the image to download from S3
-            message_dict = json.loads(message)
+            message_replace1 = message.replace("'", '"')
+            message_replace2 = message_replace1.replace("False", '"False"')
+            message_dict = json.loads(message_replace2)
             image_name = message_dict.get('caption')  # TODO extract from message
             chat_id = message_dict.get('chat_id')
             local_dir = 'photos/'  # str of dir to save to
