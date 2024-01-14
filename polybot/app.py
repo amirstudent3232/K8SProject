@@ -10,6 +10,7 @@ app = flask.Flask(__name__)
 
 TELEGRAM_APP_URL = os.environ['TELEGRAM_APP_URL']
 REGION_NAME = os.environ['REGION_NAME']
+DYNAMO_TABLE = os.environ['dynamo_table']
 
 
 # TODO load TELEGRAM_TOKEN value from Secret Manager shermanawsproject
@@ -57,22 +58,25 @@ def results():
     chat_id = request.args.get('chatId')
     # TODO use the prediction_id to retrieve results from DynamoDB and send to the end-user
     dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
-    table = dynamodb.Table('ShermanAWSdynamoDB')
+    table = dynamodb.Table(DYNAMO_TABLE)
 
     try:
         response = table.get_item(
             Key={
                 'prediction_id': prediction_id,
-                'chat_id': chat_id,
-            }
+                'chat_id': chat_id
+            }, TableName = DYNAMO_TABLE
         )
-        item = response.get('Item')
+
+        item = response['Item']
         if item:
+            print('in if')
             text_results = item
-            bot.send_text(chat_id, text=str(text_results))
+            bot.send_text(chat_id, text="amir") #str(text_results))
             return 'WE HAVE THE RESULT AND WE SEND IT TO THE USER'
         else:
-            return 'THERE ARE NO RESULT YET PLEASE WAIT'
+            bot.send_text(chat_id, text="test")
+
     except Exception as e:
         return f'Error: {str(e)}'
 
