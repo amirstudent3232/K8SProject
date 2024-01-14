@@ -90,7 +90,7 @@ def consume():
                 }
 
                 # TODO store the prediction_summary in a DynamoDB table
-                dynamo_client = boto3.client('dynamodb', region_name=REGION_NAME)
+                dynamo_client = boto3.client('dynamodb', region_name = REGION_NAME)
                 responce = dynamo_client.put_item(
                     Item={'prediction_id': {'S': prediction_summary['prediction_id']},
                         'chat_id': {'S': str(chat_id)},
