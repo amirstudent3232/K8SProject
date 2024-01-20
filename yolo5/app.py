@@ -66,10 +66,13 @@ def consume():
             predicted_img_path = Path(f'static/data/{prediction_id}/{image_name}')
 
             # TODO Uploads the predicted image (predicted_img_path) to S3 (be careful not to override the original image).
-            s3_client.upload_file(predicted_img_path, images_bucket, image_name +"_predict")
+            s3_client.upload_file(predicted_img_path, images_bucket, image_name.split(".")[0] + "." +  image_name.split(".")[1] + "_predict.jpeg")
 
             # Parse prediction labels and create a summary
-            pred_summary_path = f'static/data/{prediction_id}/labels/{image_name.split(".")[0]}.txt'
+            #pred_summary_path = f'static/data/{prediction_id}/labels/{image_name.split(".")[0] + "." +  image_name.split(".")[1]}_predict.jpeg.txt'
+            #pred_summary_path = f'static/data/{prediction_id}/labels/{image_name}'
+            #pred_summary_path = f'static/data/{prediction_id}/labels/{image_name.split(".")[0] + "." + image_name.split(".")[1]}_predict.txt'
+            pred_summary_path = f'static/data/{prediction_id}/labels/{image_name.split(".")[0] + "." + image_name.split(".")[1]}.txt'
             if pred_summary_path:
                 with open(pred_summary_path) as f:
                     labels = f.read().splitlines()
@@ -94,15 +97,14 @@ def consume():
                 # TODO store the prediction_summary in a DynamoDB table
                 try:
                     response = dynamo_client.put_item(
-                        Item={'prediction_id': {'S': str(prediction_summary['prediction_id'])},
+                        Item={'prediction_id': {'S': prediction_summary['prediction_id']},
                             'chat_id': {'S': str(chat_id)},
-                            'prediction_summary': {'S': str(json.dumps(prediction_summary))}
+                            'prediction_summary': {'S': json.dumps(prediction_summary)}
                         },
                         TableName=dynamo_table
                     )
                 except:
-                    raise Exception("The chat_id is " + chat_id)
-                print(response)
+                    raise Exception(f'The response is: {response} and the Iteo is:')
 
                 # TODO perform a GET request to Polybot to `/results` endpoint
             #requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')
