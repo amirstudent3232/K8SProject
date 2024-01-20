@@ -16,8 +16,9 @@ REGION_NAME = os.environ['REGION_NAME']
 dynamo_table = os.environ['dynamo_table']
 
 sqs_client = boto3.client('sqs', region_name=REGION_NAME)
-s3_client = boto3.client('s3')
-dynamo_client = boto3.client('dynamodb', region_name=REGION_NAME)
+s3 = boto3.client('s3')
+s3_client = boto3.client('s3', region_name=REGION_NAME)
+dynamo_client = boto3.client('dynamodb', region_name = REGION_NAME)
 
 
 with open("data/coco128.yaml", "r") as stream:
@@ -90,19 +91,21 @@ def consume():
                 }
 
                 # TODO store the prediction_summary in a DynamoDB table
-                dynamo_client = boto3.client('dynamodb', region_name = REGION_NAME)
-                responce = dynamo_client.put_item(
-                    Item={'prediction_id': {'S': prediction_summary['prediction_id']},
-                        'chat_id': {'S': str(chat_id)},
-                        'original_path_img': {'S': prediction_summary['original_img_path']},
-                        'predicted_img_path': {
-                        'S': str(prediction_summary['predicted_img_path'])},
-                        'labels': {'S': str(prediction_summary['labels'])},
-                        'time': {'S': str(prediction_summary['time'])}
-                     },
-                     ReturnConsumedCapacity='TOTAL',
-                     TableName='amirAWSpro'
-                )
+                try:
+                    responce = dynamo_client.put_item(
+                        Item={'prediction_id': {'S': prediction_summary['prediction_id']},
+                            'chat_id': {'S': str(chat_id)},
+                            'original_path_img': {'S': prediction_summary['original_img_path']},
+                            'predicted_img_path': {
+                            'S': str(prediction_summary['predicted_img_path'])},
+                            'labels': {'S': str(prediction_summary['labels'])},
+                            'time': {'S': str(prediction_summary['time'])}
+                         },
+                         ReturnConsumedCapacity='TOTAL',
+                         TableName='amirAWSpro'
+                    )
+                except:
+                    raise Exception("The chat_id is " + chat_id)
                 print(responce)
 
                 # TODO perform a GET request to Polybot to `/results` endpoint

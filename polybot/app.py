@@ -78,6 +78,7 @@ def results():
             bot.send_text(chat_id, text="test")
 
     except Exception as e:
+        raise e
         return f'Error: {str(e)}'
 
 
