@@ -97,16 +97,16 @@ def consume():
                 # TODO store the prediction_summary in a DynamoDB table
                 try:
                     response = dynamo_client.put_item(
-                        Item = {'prediction_id': {'S': prediction_summary['prediction_id']},
+                        TableName=dynamo_table,
+                        Item = {
+                            'prediction_id': {'S': prediction_summary['prediction_id']},
                             'chat_id': {'S': str(chat_id)},
-                            'prediction_summary': {'S': json.dumps(prediction_summary)}
+                            'prediction_summary': {'S': str(prediction_summary)}
 
                     },
-                        TableName=dynamo_table
                     )
                 except:
-                    raise Exception(f'The response is: {response} and the Iteo is:')
-
+                    raise Exception(f'The response is: {response} and the prediction_summary is:{prediction_summary}  and prediction_id is: {prediction_id} and chat_id is {chat_id}')
                 # TODO perform a GET request to Polybot to `/results` endpoint
             #requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')
             requests.get(f'http://poly:8443/results/?predictionId={prediction_id}&chatId={chat_id}')
