@@ -14,6 +14,7 @@ queue_name = os.environ['SQS_QUEUE_NAME']
 queue_url = os.environ['SQS_QUEUE_URL']
 REGION_NAME = os.environ['REGION_NAME']
 dynamo_table = os.environ['DYNAMO_TABLE']
+images_bucket = os.environ['BUCKET_NAME']
 
 sqs_client = boto3.client('sqs', region_name=REGION_NAME)
 s3 = boto3.client('s3')
@@ -62,13 +63,14 @@ def consume():
 
             # This is the path for the predicted image with labels
             # The predicted image typically includes bounding boxes drawn around the detected objects, along with class labels and possibly confidence scores.
-            predicted_img_path = Path(f'static/data/{prediction_id}/{original_img_path}')
+            predicted_img_path = Path(f'static/data/{prediction_id}/{image_name}')
 
             # TODO Uploads the predicted image (predicted_img_path) to S3 (be careful not to override the original image).
+            s3_client.upload_file(predicted_img_path, images_bucket, image_name +"_predict")
 
             # Parse prediction labels and create a summary
-            pred_summary_path = Path(f'static/data/{prediction_id}/labels/{original_img_path.split(".")[0]}.txt')
-            if pred_summary_path.exists():
+            pred_summary_path = f'static/data/{prediction_id}/labels/{image_name.split(".")[0]}.txt'
+            if pred_summary_path:
                 with open(pred_summary_path) as f:
                     labels = f.read().splitlines()
                     labels = [line.split(' ') for line in labels]
@@ -89,22 +91,18 @@ def consume():
                     'labels': labels,
                     'time': str(time.time())
                 }
-
                 # TODO store the prediction_summary in a DynamoDB table
                 try:
-                    responce = dynamo_client.put_item(
-                        dynamo_table,
-                        Item={'prediction_id': {'S': prediction_summary['prediction_id']},
+                    response = dynamo_client.put_item(
+                        Item={'prediction_id': {'S': str(prediction_summary['prediction_id'])},
                             'chat_id': {'S': str(chat_id)},
-                            'original_path_img': {'S': prediction_summary['original_img_path']},
-                            'predicted_img_path': {'S': str(prediction_summary['predicted_img_path'])},
-                            'labels': {'S': str(prediction_summary['labels'])},
-                            'time': {'S': str(prediction_summary['time'])}
-                         }
+                            'prediction_summary': {'S': str(json.dumps(prediction_summary))}
+                        },
+                        TableName=dynamo_table
                     )
                 except:
                     raise Exception("The chat_id is " + chat_id)
-                print(responce)
+                print(response)
 
                 # TODO perform a GET request to Polybot to `/results` endpoint
             #requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')

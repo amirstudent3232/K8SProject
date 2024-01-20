@@ -10,7 +10,7 @@ services:
 
     environment:
         BUCKET_NAME: $BUCKET_NAME
-        dynamo_table: $dynamo_table
+        DYNAMO_TABLE: $DYNAMO_TABLE
         REGION_NAME: $REGION_NAME
         SQS_QUEUE_URL: $SQS_QUEUE_URL
 
@@ -29,7 +29,7 @@ services:
     environment:
 
         BUCKET_NAME: $BUCKET_NAME
-        dynamo_table: $dynamo_table
+        DYNAMO_TABLE: $DYNAMO_TABLE
         REGION_NAME: $REGION_NAME
         SQS_QUEUE_NAME: $SQS_QUEUE_NAME
         SQS_QUEUE_URL: $SQS_QUEUE_URL
