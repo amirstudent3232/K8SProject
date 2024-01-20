@@ -71,9 +71,7 @@ def results():
         print(res)
         item = res['Item']
         if item:
-            print('in if')
-            text_results = item
-            bot.send_text(chat_id, str(item))
+            bot.send_text(chat_id, text=str(item))
             return 'WE HAVE THE RESULT AND WE SEND IT TO THE USER'
         else:
             bot.send_text(chat_id, text="test")

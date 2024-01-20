@@ -93,16 +93,14 @@ def consume():
                 # TODO store the prediction_summary in a DynamoDB table
                 try:
                     responce = dynamo_client.put_item(
+                        dynamo_table,
                         Item={'prediction_id': {'S': prediction_summary['prediction_id']},
                             'chat_id': {'S': str(chat_id)},
                             'original_path_img': {'S': prediction_summary['original_img_path']},
-                            'predicted_img_path': {
-                            'S': str(prediction_summary['predicted_img_path'])},
+                            'predicted_img_path': {'S': str(prediction_summary['predicted_img_path'])},
                             'labels': {'S': str(prediction_summary['labels'])},
                             'time': {'S': str(prediction_summary['time'])}
-                         },
-                         ReturnConsumedCapacity='TOTAL',
-                         TableName='amirAWSpro'
+                         }
                     )
                 except:
                     raise Exception("The chat_id is " + chat_id)
