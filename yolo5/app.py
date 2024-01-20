@@ -97,10 +97,11 @@ def consume():
                 # TODO store the prediction_summary in a DynamoDB table
                 try:
                     response = dynamo_client.put_item(
-                        Item={'prediction_id': {'S': prediction_summary['prediction_id']},
+                        Item = {'prediction_id': {'S': prediction_summary['prediction_id']},
                             'chat_id': {'S': str(chat_id)},
                             'prediction_summary': {'S': json.dumps(prediction_summary)}
-                        },
+
+                    },
                         TableName=dynamo_table
                     )
                 except:
