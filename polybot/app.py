@@ -49,6 +49,7 @@ def index():
 def webhook():
     req = request.get_json()
     bot.handle_message(req['message'])
+    print("the jason is: " + req)
     return 'Ok'
 
 
@@ -61,15 +62,15 @@ def results():
     table = dynamodb.Table(DYNAMO_TABLE)
 
     try:
-        response = table.get_item(
+        req = table.get_item(
             Key={
                 'prediction_id': prediction_id,
                 'chat_id': chat_id
             }, TableName = DYNAMO_TABLE
         )
         print("the response is: ")
-        print(response)
-        item = response['Item']
+        print(req)
+        item = req['Item']
         if item:
             print('in if')
             text_results = item
