@@ -10,7 +10,7 @@ app = flask.Flask(__name__)
 
 TELEGRAM_APP_URL = os.environ['TELEGRAM_APP_URL']
 REGION_NAME = os.environ['REGION_NAME']
-DYNAMO_TABLE = os.environ['dynamo_table']
+DYNAMO_TABLE = os.environ['DYNAMO_TABLE']
 
 
 # TODO load TELEGRAM_TOKEN value from Secret Manager shermanawsproject
@@ -67,7 +67,8 @@ def results():
                 'chat_id': chat_id
             }, TableName = DYNAMO_TABLE
         )
-
+        print("the response is: ")
+        print(response)
         item = response['Item']
         if item:
             print('in if')
