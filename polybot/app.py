@@ -49,7 +49,7 @@ def index():
 def webhook():
     req = request.get_json()
     bot.handle_message(req['message'])
-    print("the jason is: " + req)
+    print("the jason is: " + str(req))
     return 'Ok'
 
 
@@ -60,21 +60,20 @@ def results():
     # TODO use the prediction_id to retrieve results from DynamoDB and send to the end-user
     dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
     table = dynamodb.Table(DYNAMO_TABLE)
-
     try:
-        req = table.get_item(
+        res = table.get_item(
             Key={
                 'prediction_id': prediction_id,
                 'chat_id': chat_id
-            }, TableName = DYNAMO_TABLE
+            }
         )
         print("the response is: ")
-        print(req)
-        item = req['Item']
+        print(res)
+        item = res['Item']
         if item:
             print('in if')
             text_results = item
-            bot.send_text(chat_id, text="amir") #str(text_results))
+            bot.send_text(chat_id, str(item))
             return 'WE HAVE THE RESULT AND WE SEND IT TO THE USER'
         else:
             bot.send_text(chat_id, text="test")
