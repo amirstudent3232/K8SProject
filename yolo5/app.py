@@ -28,7 +28,7 @@ with open("data/coco128.yaml", "r") as stream:
 
 def consume():
     while True:
-        response = sqs_client.receive_message(QueueUrl=queue_url, MaxNumberOfMessages=1, WaitTimeSeconds=30)
+        response = sqs_client.receive_message(QueueUrl='https://sqs.eu-north-1.amazonaws.com/352708296901/ShermanAWSSQSProject', MaxNumberOfMessages=1, WaitTimeSeconds=30)
 
         if 'Messages' in response:
             message = response['Messages'][0]['Body']
