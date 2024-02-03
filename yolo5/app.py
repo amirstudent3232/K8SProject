@@ -111,7 +111,7 @@ def consume():
             #requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')
             requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?predictionId={prediction_id}&chatId={chat_id}')
             # Delete the message from the queue as the job is considered as DONE
-            sqs_client.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
+            sqs_client.delete_message(QueueUrl=queue_name, ReceiptHandle=receipt_handle)
 
 
 if __name__ == "__main__":
