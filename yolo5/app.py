@@ -11,7 +11,7 @@ import json
 
 images_bucket = os.environ['BUCKET_NAME']
 queue_name = os.environ['SQS_QUEUE_NAME']
-#queue_url = os.environ['SQS_QUEUE_URL']
+queue_url = os.environ['SQS_QUEUE_URL']
 REGION_NAME = os.environ['REGION_NAME']
 dynamo_table = os.environ['DYNAMO_TABLE']
 
