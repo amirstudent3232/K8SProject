@@ -11,7 +11,7 @@ import json
 
 images_bucket = os.environ['BUCKET_NAME']
 queue_name = os.environ['SQS_QUEUE_NAME']
-queue_url = os.environ['SQS_QUEUE_URL']
+#queue_url = os.environ['SQS_QUEUE_URL']
 REGION_NAME = os.environ['REGION_NAME']
 dynamo_table = os.environ['DYNAMO_TABLE']
 
@@ -28,7 +28,7 @@ with open("data/coco128.yaml", "r") as stream:
 
 def consume():
     while True:
-        response = sqs_client.receive_message(QueueUrl='https://sqs.eu-north-1.amazonaws.com/352708296901/ShermanAWSSQSProject', MaxNumberOfMessages=1, WaitTimeSeconds=30)
+        response = sqs_client.receive_message(QueueUrl=queue_name, MaxNumberOfMessages=1, WaitTimeSeconds=30)
 
         if 'Messages' in response:
             message = response['Messages'][0]['Body']
