@@ -88,9 +88,9 @@ def consume():
 
                 prediction_summary = {
                     'prediction_id': prediction_id,
-                    'original_img_path': original_img_path,
-                    'predicted_img_path': predicted_img_path,
-                    'labels': labels,
+                    'original_img_path': str(original_img_path),
+                    'predicted_img_path': str(predicted_img_path),
+                    'labels': str(labels),
                     'time': str(time.time())
                 }
                 # TODO store the prediction_summary in a DynamoDB table
