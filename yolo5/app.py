@@ -108,7 +108,8 @@ def consume():
                     raise Exception(f'The response is: {response} and the prediction_summary is:{prediction_summary}  and prediction_id is: {prediction_id} and chat_id is {chat_id}')
                 # TODO perform a GET request to Polybot to `/results` endpoint
             #requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')
-            requests.get(f'https://amirawsroute.devops-int-college.com:8443/results/?predictionId={prediction_id}&chatId={chat_id}', json=prediction_summary)
+            #requests.get(f'https://amirawsroute.devops-int-college.com:8443/results/?predictionId={prediction_id}&chatId={chat_id}', json=prediction_summary)
+            requests.get(f'https://amirawsroute.devops-int-college.com:8443/results/?predictionId={prediction_id}&chatId={chat_id}')
             # Delete the message from the queue as the job is considered as DONE
             sqs_client.delete_message(QueueUrl=queue_name, ReceiptHandle=receipt_handle)
 
