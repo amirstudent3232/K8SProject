@@ -53,7 +53,7 @@ def webhook():
     return 'Ok'
 
 
-@app.route(f'/results/', methods=['GET'])
+@app.route(f'/results/', methods=['GET', 'POST'])
 def results():
     prediction_id = request.args.get('predictionId')
     chat_id = request.args.get('chatId')
