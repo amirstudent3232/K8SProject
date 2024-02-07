@@ -5,6 +5,8 @@ from bot import ObjectDetectionBot
 import boto3
 from botocore.exceptions import ClientError
 import json
+from loguru import logger
+
 
 app = flask.Flask(__name__)
 
@@ -67,8 +69,7 @@ def results():
                 'chat_id': chat_id
             }
         )
-        print("the response is: ")
-        print(res)
+        logger.info(f'prediction_id is: {prediction_id} and the chat_id is: {chat_id}')
         item = res['Item']
         if item:
             bot.send_text(chat_id, text=str(item))
