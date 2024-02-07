@@ -110,7 +110,7 @@ def consume():
             #requests.get(f'https://amirawsrecored.devops-int-college.com:8443/results/?prediction_id={prediction_id}&chat_id={chat_id}')
             #requests.get(f'http://amirawsroute.devops-int-college.com:80/results/?predictionId={prediction_id}&chatId={chat_id}')
             try:
-                requests.get(f'https://amirawsroute.devops-int-college.com:8443/results/?predictionId={prediction_id}&chatId={chat_id}')
+                requests.get(f'http://amirawsroute.devops-int-college.com:80/results/?predictionId={prediction_id}&chatId={chat_id}')
             except Exception as e:
                 raise e
                 return f'Error: {str(e)}'
