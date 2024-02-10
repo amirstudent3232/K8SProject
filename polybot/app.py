@@ -63,6 +63,7 @@ def results():
     dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
     table = dynamodb.Table(DYNAMO_TABLE)
     try:
+        logger.info(f'prediction_id is: {prediction_id} and the chat_id is: {chat_id}')
         res = table.get_item(
             Key={
                 'prediction_id': {'S': prediction_id},
