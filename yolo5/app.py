@@ -13,7 +13,7 @@ images_bucket = os.environ['BUCKET_NAME']
 queue_name = os.environ['SQS_QUEUE_NAME']
 #queue_url = os.environ['SQS_QUEUE_URL']
 REGION_NAME = os.environ['REGION_NAME']
-dynamo_table = os.environ['DYNAMO_TABLE']
+DYNAMO_TABLE = os.environ['DYNAMO_TABLE']
 
 
 sqs_client = boto3.client('sqs', region_name=REGION_NAME)
@@ -96,7 +96,7 @@ def consume():
                 # TODO store the prediction_summary in a DynamoDB table
                 try:
                     response = dynamo_client.put_item(
-                        TableName=dynamo_table,
+                        TableName=DYNAMO_TABLE,
                         Item = {
                             'prediction_id': {'S': prediction_summary['prediction_id']},
                             'chat_id': {'S': str(chat_id)},
