@@ -69,7 +69,6 @@ def results():
                 'chat_id': {'S' : chat_id}
             }
         )
-        logger.info(f'prediction_id is: {prediction_id} and the chat_id is: {chat_id}')
         item = res['Item']
         if item:
             bot.send_text(chat_id, text=str(item))
@@ -79,6 +78,7 @@ def results():
 
     except Exception as e:
         raise e
+        logger.info(f'prediction_id is: {prediction_id} and the chat_id is: {chat_id}')
         return f'Error: {str(e)}'
 
 
