@@ -66,8 +66,8 @@ def results():
         logger.info(f'prediction_id is: {prediction_id} and the chat_id is: {chat_id}')
         res = table.get_item(
             Key = {
-                'prediction_id': {prediction_id},
-                'chat_id': {chat_id}
+                'prediction_id': prediction_id,
+                'chat_id': chat_id
             }
         )
         logger.info(f'prediction_id is: {prediction_id} and the chat_id is: {chat_id}')
