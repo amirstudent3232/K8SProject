@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poly
+  labels:
+    app: poly
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poly
+  template:
+    metadata:
+        labels:
+          app: poly
+    spec:
+      containers:
+      - name: poly
+        image: <amirPoly>
+
+  ---
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: polyservice
+  spec:
+    selector:
+      app: polyservice
+    ports:
+      - protocol: TCP
+        port: 8443
+        targetPort: 8443

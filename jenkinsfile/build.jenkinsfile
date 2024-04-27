@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+    environment{
+        DOCKER_CREDENTIALS = credentials('jenkinstoken')
+        IMAGE_URL = "amirstudent3232/K8SProject"
+        branchname = null
+        servicename = []
+    }
+    stages {
+        //sh def buildNumber=${env.BUILD_NUMBER}
+        stage('determin branch and service') {
+            steps {
+                println(env.branch)
+                if (env.branch =~ "develop"){
+                    then {
+                        branchname = "develop"
+                    }
+                }
+                if (env.branch =~ "master"){
+                    then {
+                        branchname = "master"
+                    }
+                }
+                if (env.branch =~ "yolo"){
+                    then {
+                        servicename += "yolo"
+                    }
+                }
+                if (env.branch =~ "poly"){
+                    then {
+                        servicename += "poly"
+                    }
+                }
+                if (branchname == null || servicename ==[])
+                    then {
+                        println ("the branch name is not correct the job will stop")
+                        exit 1
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+            sh '''
+                pwd
+                echo ${BUILD_NUMBER}
+                for (sr in servicename){
+                    docker build -t $sr:${BUILD_NUMBER} .
+                    docker tag $sr:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
+                }
+            '''
+            }
+        }
+        stage('uploade image to dockerhub:') {
+            steps {
+            sh'''
+            for (sr in servicename){
+                echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                docker push $sr:${BUILD_NUMBER}
+            }
+            '''
+            }
+            post {
+                always {
+                    script {
+                    sh '''
+                        docker system prune -a --force
+                    '''
+                    }
+                }
+            }
+        }
+        stage('merge feat branch to develop or master branch') {
+            steps {
+                sh '''
+                    git checkout develop
+                    git merge env.branch
+                '''
+             }
+        }
+        stage('Trigger Deploy job') {
+            when (expresion (env.branch =~ "true")
+                steps {
+
+                }
+        }
+    }
+}
+feat/yolo/poly/develop/true
