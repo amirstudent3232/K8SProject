@@ -42,11 +42,18 @@ pipeline {
         stage('Build') {
             steps {
             sh '''
-                pwd
                 echo ${BUILD_NUMBER}
                 for (sr in servicename){
-                    docker build -t $sr:${BUILD_NUMBER} .
-                    docker tag $sr:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
+                    if (sr == yolo){
+                        dockerrepo=amirstudent3232/yolo
+                        docker build -t $sr:${BUILD_NUMBER} .
+                        docker tag $dockerrepo:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
+                    }
+                    if (sr == poly){
+                        dockerrepo=amirstudent3232/k8s
+                        docker build -t $sr:${BUILD_NUMBER} .
+                        docker tag $dockerrepo:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
+                    }
                 }
             '''
             }
@@ -55,8 +62,16 @@ pipeline {
             steps {
             sh'''
             for (sr in servicename){
-                echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
-                docker push $sr:${BUILD_NUMBER}
+                if (sr == yolo){
+                    dockerrepo=amirstudent3232/yolo
+                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                    docker push $dockerrepo:${BUILD_NUMBER}
+                }
+                if (sr == poy){
+                    dockerrepo=amirstudent3232/k8s
+                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                    docker push $dockerrepo:${BUILD_NUMBER}
+                }
             }
             '''
             }
@@ -86,4 +101,4 @@ pipeline {
         }
     }
 }
-feat/yolo/poly/develop/true
+yolo/poly/develop/true
