@@ -70,7 +70,7 @@ pipeline {
                         ls -a
                         servicename=$SERVICENAME
                         echo $servicename
-                        for sr : $servicename; do
+                        for sr : $servicename do
                             echo "building ${sr}"
                             dockerrepo = "amirstudent3232/${sr}"
                             sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
