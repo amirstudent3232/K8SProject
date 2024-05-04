@@ -67,18 +67,18 @@ pipeline {
                 printenv
                 echo ${BUILD_NUMBER}
                 echo ${SERVICENAME}
-//                 for (sr in env.SERVICENAME){
-//                         dockerrepo=amirstudent3232/${sr}
-//                         docker build -t $dockerrepo:${BUILD_NUMBER} .
-//                         //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
-//                 }
+                for (sr in ${SERVICENAME}){
+                        dockerrepo=amirstudent3232/${sr}
+                        docker build -t $dockerrepo:${BUILD_NUMBER} .
+                        //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
+                }
             '''
             }
         }
         stage('uploade image to dockerhub:') {
             steps {
             sh'''
-            for (sr in env.SERVICENAME){
+            for (sr in ${SERVICENAME}){
                     dockerrepo=amirstudent3232/${sr}
                     echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
                     docker push $dockerrepo:${BUILD_NUMBER}
@@ -109,7 +109,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    for (sr in env.SERVICENAME){
+                    for (sr in ${SERVICENAME}){
                         sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
                     }
                 '''
