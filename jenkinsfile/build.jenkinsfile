@@ -21,9 +21,9 @@ pipeline {
                         env.servicename.add("poly")
                     }
                     println("the service is ")
-                     println(env.servicename)
+                    println(env.servicename)
                     println("the branch is ")
-                    prontln(env.branchname)
+                    println(env.branchname)
                     if (env.branchname == null || env.servicename == null) {
                         error("The branch name is not correct or no service name provided; the job will stop.")
                         sh 'exit 1'
