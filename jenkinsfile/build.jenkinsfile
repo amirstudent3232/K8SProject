@@ -10,8 +10,6 @@ pipeline {
         stage('Determine branch and service') {
             steps {
                 script {
-                    env.SERVICENAM = ["polybot"]
-                    println(env.SERVICENAM)
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     println(1)
                     println("Commit Message: ${COMMIT_MESSAGE}")
@@ -33,6 +31,7 @@ pipeline {
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         env.SECONDSERVICENAM = "poly"
+                        println(env.SECONDSERVICENAM)
                     }
                     env.SERVICENAME = [env.FIRSTSERVICENAM,env.SECONDSERVICENAM]
                     println("the service is ")
