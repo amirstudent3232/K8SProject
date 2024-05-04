@@ -28,6 +28,7 @@ pipeline {
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
                         env.FIRSTSERVICENAM = "yolo"
+                        println(env.FIRSTSERVICENAM)
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
