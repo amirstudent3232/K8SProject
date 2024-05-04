@@ -1,43 +1,74 @@
+// pipeline {
+//     agent any
+//     environment{
+//         DOCKER_CREDENTIALS = credentials('jenkinstoken')
+//         branchname = null
+//         servicename = []
+//     }
+//     stages {
+//         //sh def buildNumber=${env.BUILD_NUMBER}
+//         stage('determin branch and service') {
+//             steps {
+//                 println(env.branch)
+//                 if (env.branch =~ "develop"){
+//                     then {
+//                         branchname = "develop"
+//                     }
+//                 }
+//                 if (env.branch =~ "master"){
+//                     then {
+//                         branchname = "master"
+//                     }
+//                 }
+//                 if (env.branch =~ "yolo"){
+//                     then {
+//                         servicename += "yolo"
+//                     }
+//                 }
+//                 if (env.branch =~ "poly"){
+//                     then {
+//                         servicename += "poly"
+//                     }
+//                 }
+//                 if (branchname == null || servicename ==[])
+//                     then {
+//                         println ("the branch name is not correct you nead to rename the branch the job will stop")
+//                         exit 1
+//                     }
+//                 }
+//             }
+//         }
 pipeline {
     agent any
-    environment{
+    environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        branchname = null
-        servicename = []
+        branchname = '' // Initialize with an empty string
+        servicename = [] // Initialize with an empty list
     }
     stages {
-        //sh def buildNumber=${env.BUILD_NUMBER}
-        stage('determin branch and service') {
+        stage('Determine branch and service') {
             steps {
-                println(env.branch)
-                if (env.branch =~ "develop"){
-                    then {
+                script {
+                    // Assuming BRANCH_NAME is a custom environment variable you've set
+                    println("Branch: ${env.BRANCH_NAME}")
+                    if (env.BRANCH_NAME == "develop") {
                         branchname = "develop"
-                    }
-                }
-                if (env.branch =~ "master"){
-                    then {
+                    } else if (env.BRANCH_NAME == "master") {
                         branchname = "master"
+                    } else if (env.BRANCH_NAME == "yolo") {
+                        servicename.add("yolo")
+                    } else if (env.BRANCH_NAME == "poly") {
+                        servicename.add("poly")
                     }
-                }
-                if (env.branch =~ "yolo"){
-                    then {
-                        servicename += "yolo"
-                    }
-                }
-                if (env.branch =~ "poly"){
-                    then {
-                        servicename += "poly"
-                    }
-                }
-                if (branchname == null || servicename ==[])
-                    then {
-                        println ("the branch name is not correct you nead to rename the branch the job will stop")
-                        exit 1
+
+                    if (branchname.isEmpty() || servicename.isEmpty()) {
+                        error("The branch name is not correct or no service name provided; the job will stop.")
                     }
                 }
             }
         }
+    }
+}
         stage('Build') {
             steps {
             sh '''
