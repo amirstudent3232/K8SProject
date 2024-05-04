@@ -35,7 +35,7 @@ pipeline {
                         SECONDSERVICENAM = "poly"
                         println(SECONDSERVICENAM)
                     }
-                    if (FIRSTSERVICENAM && SECONDSERVICENAM == '') {
+                    if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
                         error("no service has change the job will stop")
                         sh 'exit 1'
@@ -43,7 +43,7 @@ pipeline {
                         println("amir 5")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
                         servises = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
-                        env.SERVICENAME = servises.split(",")
+                        env.SERVICENAME = servises//.split(",")
                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
                         println("amir 6")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
