@@ -10,8 +10,10 @@ pipeline {
         stage('Determine branch and service') {
             steps {
                 script {
-                    def commitMessage = sh'git log -1 --pretty=%B ${GIT_COMMIT}'
-                    COMMIT_MESSAGE = commitMessage
+                    sh'''
+                        commitMessage=git log -1 --pretty=%B ${GIT_COMMIT}'
+                        env.COMMIT_MESSAGE = commitMessage
+                    '''
                     println(1)
                     println(env.COMMIT_MESSAGE)
                     println("Branch: ${env.GIT_BRANCH}")
