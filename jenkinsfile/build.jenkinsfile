@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         def branchname = '' // Initialize with an empty string
-        def servicename = ''//[] // Initialize with an empty list
+        servicename = [] // Initialize with an empty list
         def COMMIT_MESSAGE = ''
     }
     stages {
@@ -20,6 +20,7 @@ pipeline {
                         a = "develop"
                         println(" my branch is: $a")
                         env.branchname = a
+                        println(env.branchname)
                     }
                     if (env.GIT_BRANCH =~ "master") {
                         println("amir 2")
