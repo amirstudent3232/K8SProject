@@ -58,6 +58,7 @@ pipeline {
                     }
                      println("the service is ")
                      println(SERVICES)
+                     env.SERVICENAME = []
                      env.SERVICENAME = SERVICES.split(",")
                      println(env.SERVICENAME)
                     if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
