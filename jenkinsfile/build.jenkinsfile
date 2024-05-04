@@ -68,7 +68,7 @@ pipeline {
                     def servicename = []
                     servicename = env.SERVICENAME
                     echo "${servicename}"
-                    for (String sr in env.SERVICENAME) {
+                    for (sr in env.SERVICENAME) {
                         println(sr)
 //                         def dockerrepo = "amirstudent3232/${sr}"
 //                         sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
