@@ -25,11 +25,12 @@ pipeline {
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
-                        env.servicename += ("yolo")
+                        env.servicename += "yolo"
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
-                        env.servicename += ("poly")
+                        env.servicename += "poly"
+                        println(env.servicename)
                     }
                     println("the service is ")
                     println(env.servicename)
