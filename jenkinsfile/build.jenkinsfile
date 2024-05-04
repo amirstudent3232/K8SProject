@@ -16,12 +16,12 @@ pipeline {
                     } else if (env.BRANCH_NAME == "master") {
                         env.branchname = "master"
                     } else if (env.BRANCH_NAME == "yolo") {
-                        servicename.add("yolo")
+                        env.servicename.add("yolo")
                     } else if (env.BRANCH_NAME == "poly") {
-                        servicename.add("poly")
+                        env.servicename.add("poly")
                     }
 
-                    if (env.branchname.isEmpty() || servicename.isEmpty()) {
+                    if (env.branchname == ''|| env.servicename == '' {
                         error("The branch name is not correct or no service name provided; the job will stop.")
                     }
                 }
