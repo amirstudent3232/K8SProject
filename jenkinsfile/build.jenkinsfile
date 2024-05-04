@@ -3,13 +3,13 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         COMMIT_MESSAGE = ''
-        SERVICENAM = ['aaaaaaaaaaaaa']
+        SERVICENAM = ''
     }
     stages {
         stage('Determine branch and service') {
             steps {
                 script {
-                    env.SERVICENAM += ["polybot"]
+                    env.SERVICENAM = ["polybot"]
                     println(env.SERVICENAM)
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     println(1)
