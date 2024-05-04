@@ -66,11 +66,11 @@ pipeline {
             sh '''
                 echo ${BUILD_NUMBER}
                 echo "the loop is for: ${env.SERVICENAME}"
-                for (sr in env.SERVICENAME){
-                        dockerrepo=amirstudent3232/${sr}
-                        docker build -t $dockerrepo:${BUILD_NUMBER} .
-                        //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
-                }
+//                 for (sr in env.SERVICENAME){
+//                         dockerrepo=amirstudent3232/${sr}
+//                         docker build -t $dockerrepo:${BUILD_NUMBER} .
+//                         //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
+//                 }
             '''
             }
         }
