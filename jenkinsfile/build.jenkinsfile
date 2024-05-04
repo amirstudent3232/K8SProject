@@ -34,7 +34,7 @@ pipeline {
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
                         d = "poly"
-                        env.servicename += $d
+                        env.servicename.add(d)
                         println(env.servicename)
                     }
                     println("the service is ")
