@@ -16,22 +16,22 @@ pipeline {
                     println("Branch: ${env.GIT_BRANCH}")
                     println(2)
                     if (env.GIT_BRANCH =~ "develop") {
-                        println("amir 1")
+                        //println("amir 1")
                         env.BRANCHNAME = "develop"
                         println(env.BRANCHNAME)
                     }
                     if (env.GIT_BRANCH =~ "master") {
-                        println("amir 2")
+                        //println("amir 2")
                         env.BRANCHNAME = "master"
                         println(env.BRANCHNAME)
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
-                        println("amir 3")
+                        //println("amir 3")
                         env.FIRSTSERVICENAM = "yolo"
                         println(env.FIRSTSERVICENAM)
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
-                        println("amir 4")
+                        //println("amir 4")
                         SECONDSERVICENAM = "poly"
                         println(SECONDSERVICENAM)
                     }
@@ -39,10 +39,13 @@ pipeline {
                         error("no service has change the job will stop")
                         sh 'exit 1'
                     }else if (FIRSTSERVICENAM && SECONDSERVICENAM) {
+                        println("amir 5")
                         env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
                     }else if (!FIRSTSERVICENAM) {
+                        println("amir 6")
                         env.SERVICENAME = [SECONDSERVICENAM]
                     }else if (!SECONDSERVICENAM) {
+                        println("amir 8")
                         env.SERVICENAME = [FIRSTSERVICENAM]
                     }
                      println("the service is ")
