@@ -20,7 +20,7 @@ pipeline {
                     } else if (env.BRANCH_NAME == "poly") {
                         env.servicename.add("poly")
                     }
-                    sh 'echo "the service is: env.servicename and the branch is: env.branchname"'
+                    sh 'echo "the service is: " env.servicename "and the branch is: " env.branchname"'
                     if (env.branchname == '' || env.servicename == '') {
                         error("The branch name is not correct or no service name provided; the job will stop.")
                         sh 'exit 1'
