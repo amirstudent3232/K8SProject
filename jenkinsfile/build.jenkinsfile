@@ -12,11 +12,14 @@ pipeline {
                 script {
                     def commitMessage = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}')
                     COMMIT_MESSAGE = commitMessage
+                    println(1)
                     println(env.COMMIT_MESSAGE)
                     println("Branch: ${env.GIT_BRANCH}")
-                    if (env.GIT_BRANCH == "develop") {
+                    println(env.GIT_BRANCH)
+                    println(2)
+                    if (env.GIT_BRANCH =~ "develop") {
                         env.branchname = "develop"
-                    } else if (env.GIT_BRANCH == "master") {
+                    } else if (env.GIT_BRANCH =~ "master") {
                         env.branchname = "master"
                     } else if (env.COMMIT_MESSAGE == "yolo") {
                         env.servicename.add("yolo")
