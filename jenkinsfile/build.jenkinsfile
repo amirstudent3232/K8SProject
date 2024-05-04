@@ -42,7 +42,8 @@ pipeline {
                     }else if (FIRSTSERVICENAM != '' && SECONDSERVICENAM != '') {
                         println("amir 5")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
+                        servises = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
+                        env.SERVICENAME = servises.split(",")
                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
                         println("amir 6")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
@@ -64,9 +65,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-
-                    def servicename = []
-                    servicename = env.SERVICENAME.split(",")
+                    servicename = env.SERVICENAME //.split(",")
                     echo "${servicename}"
                     for (sr in servicename) {
                         println(sr)
