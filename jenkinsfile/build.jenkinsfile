@@ -80,7 +80,7 @@ pipeline {
         }
         stage('Deploy job') {
             when{
-                (expresion (env.branch =~ "true")
+                expresion {env.branch =~ "true"}
             }
                 steps {
                 sh '''
