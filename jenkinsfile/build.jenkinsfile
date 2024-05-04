@@ -32,9 +32,9 @@ pipeline {
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
                         SECONDSERVICENAM = "poly"
-                        println(env.SECONDSERVICENAM)
+                        println(SECONDSERVICENAM)
                     }
-                    env.SERVICENAME = [env.FIRSTSERVICENAM,env.SECONDSERVICENAM]
+                    env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
                     println("the service is ")
                     println(env.SERVICENAME)
                     println("the branch is ")
