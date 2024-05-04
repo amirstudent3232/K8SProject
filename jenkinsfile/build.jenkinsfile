@@ -69,7 +69,7 @@ pipeline {
         }
         stage('Deploy job') {
             when {
-                expresion {env.BRANCH_NAME =~ "true"}
+                expression {env.BRANCH_NAME =~ "true"}
             }
             steps {
                 sh '''
