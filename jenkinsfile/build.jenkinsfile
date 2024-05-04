@@ -10,7 +10,7 @@ pipeline {
                 script {
                     def FIRSTSERVICENAM = ''
                     def SECONDSERVICENAM = ''
-                    def servicees = ''
+                    def SERVICES = ''
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     println(1)
                     println("Commit Message: ${COMMIT_MESSAGE}")
@@ -43,22 +43,22 @@ pipeline {
                     }else if (FIRSTSERVICENAM != '' && SECONDSERVICENAM != '') {
                         println("amir 5")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        servises = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
+                        SERVICES = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
                         //env.SERVICENAME = servises//.split(",")
                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
                         println("amir 6")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        servises = SECONDSERVICENAM
+                        SERVICES = SECONDSERVICENAM
                         //env.SERVICENAME = [SECONDSERVICENAM]
                     }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
                         println("amir 8")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        servicees = FIRSTSERVICENAM
+                        SERVICES = FIRSTSERVICENAM
                         //env.SERVICENAME = [FIRSTSERVICENAM]
                     }
                      println("the service is ")
-                     println(servicees)
-                     env.SERVICENAME = servicees.split(",")
+                     println(SERVICES)
+                     env.SERVICENAME = SERVICES.split(",")
                      println(env.SERVICENAME)
                     if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
                         error("The branch name is not correct or no service name provided; the job will stop now!.")
