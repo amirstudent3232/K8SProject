@@ -21,7 +21,7 @@ pipeline {
                         env.servicename.add("poly")
                     }
 
-                    if (env.branchname == ''|| env.servicename == '' ){
+                    if (env.branchname == '' || env.servicename == '') {
                         error("The branch name is not correct or no service name provided; the job will stop.")
                         sh 'exit 1'
                     }
