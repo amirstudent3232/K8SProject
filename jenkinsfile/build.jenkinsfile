@@ -42,12 +42,13 @@ pipeline {
                     }else if (!FIRSTSERVICENAM) {
                         env.SERVICENAME = [SECONDSERVICENAM]
                     }else if (!SECONDSERVICENAM)
-                    env.SERVICENAME = [FIRSTSERVICENAM]
-                    println("the service is ")
-                    println(env.SERVICENAME)
-                    println("the branch is ")
-                    println(env.BRANCHNAME)
-                    sh 'printenv'
+                        env.SERVICENAME = [FIRSTSERVICENAM]
+                    }
+                     println("the service is ")
+                     println(env.SERVICENAME)
+//                     println("the branch is ")
+//                     println(env.BRANCHNAME)
+//                     sh 'printenv'
                     if (env.BRANCHNAME == null || env.SERVICENAME == null) {
                         error("The branch name is not correct or no service name provided; the job will stop now!.")
                         sh 'exit 1'
