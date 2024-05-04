@@ -12,16 +12,16 @@ pipeline {
                     // Assuming BRANCH_NAME is a custom environment variable you've set
                     println("Branch: ${env.BRANCH_NAME}")
                     if (env.BRANCH_NAME == "develop") {
-                        branchname = "develop"
+                        env.branchname = "develop"
                     } else if (env.BRANCH_NAME == "master") {
-                        branchname = "master"
+                        env.branchname = "master"
                     } else if (env.BRANCH_NAME == "yolo") {
                         servicename.add("yolo")
                     } else if (env.BRANCH_NAME == "poly") {
                         servicename.add("poly")
                     }
 
-                    if (branchname.isEmpty() || servicename.isEmpty()) {
+                    if (env.branchname.isEmpty() || servicename.isEmpty()) {
                         error("The branch name is not correct or no service name provided; the job will stop.")
                     }
                 }
@@ -62,7 +62,7 @@ pipeline {
         stage('merge feat branch to develop or master branch') {
             steps {
                 sh '''
-                    git checkout develop
+                    git checkout env.branchname}
                     git merge env.BRANCH_NAME
                 '''
              }
