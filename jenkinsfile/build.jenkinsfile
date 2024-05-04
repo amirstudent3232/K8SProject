@@ -41,7 +41,7 @@ pipeline {
                         env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
                     }else if (!FIRSTSERVICENAM) {
                         env.SERVICENAME = [SECONDSERVICENAM]
-                    }else if (!SECONDSERVICENAM)
+                    }else if (!SECONDSERVICENAM) {
                         env.SERVICENAME = [FIRSTSERVICENAM]
                     }
                      println("the service is ")
