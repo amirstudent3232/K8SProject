@@ -1,49 +1,9 @@
-// pipeline {
-//     agent any
-//     environment{
-//         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-//         branchname = null
-//         servicename = []
-//     }
-//     stages {
-//         //sh def buildNumber=${env.BUILD_NUMBER}
-//         stage('determin branch and service') {
-//             steps {
-//                 println(env.branch)
-//                 if (env.branch =~ "develop"){
-//                     then {
-//                         branchname = "develop"
-//                     }
-//                 }
-//                 if (env.branch =~ "master"){
-//                     then {
-//                         branchname = "master"
-//                     }
-//                 }
-//                 if (env.branch =~ "yolo"){
-//                     then {
-//                         servicename += "yolo"
-//                     }
-//                 }
-//                 if (env.branch =~ "poly"){
-//                     then {
-//                         servicename += "poly"
-//                     }
-//                 }
-//                 if (branchname == null || servicename ==[])
-//                     then {
-//                         println ("the branch name is not correct you nead to rename the branch the job will stop")
-//                         exit 1
-//                     }
-//                 }
-//             }
-//         }
 pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         branchname = '' // Initialize with an empty string
-        servicename = [] // Initialize with an empty list
+        servicename //= [] // Initialize with an empty list
     }
     stages {
         stage('Determine branch and service') {
