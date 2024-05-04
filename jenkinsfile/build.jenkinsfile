@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        def branchname = '' // Initialize with an empty string
-        servicename = [] // Initialize with an empty list
+        def BRANCHNAME = '' // Initialize with an empty string
         def COMMIT_MESSAGE = ''
+        def SERVICENAM = []
     }
     stages {
         stage('Determine branch and service') {
@@ -19,24 +19,25 @@ pipeline {
                         println("amir 1")
                         a = "develop"
                         println(" my branch is: $a")
-                        env.branchname = a
-                        println(env.branchname)
+                        env.BRANCHNAME = a
+                        println(env.SERVICENAM)
                     }
                     if (env.GIT_BRANCH =~ "master") {
                         println("amir 2")
                         b = "master"
-                        env.branchname = $b
+                        env.BRANCHNAME = $b
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
                         c = "yolo"
-                        env.servicename += $c
+                        env.SERVICENAM += $c
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
                         d = "poly"
-                        env.servicename.add(d)
-                        println(env.servicename)
+                        env.SERVICENAM = []
+                        env.SERVICENAM.add(d)
+                        println(env.SERVICENAM)
                     }
                     println("the service is ")
                     println(env.servicename)
