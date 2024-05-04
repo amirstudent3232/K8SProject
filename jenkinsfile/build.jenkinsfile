@@ -66,7 +66,7 @@ pipeline {
                 script {
 
                     def servicename = []
-                    servicename = env.SERVICENAME.split(,)
+                    servicename = env.SERVICENAME.split(",")
                     echo "${servicename}"
                     for (sr in servicename) {
                         println(sr)
