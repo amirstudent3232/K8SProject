@@ -65,15 +65,18 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh "pwd"
-                    sh "ls -a"
-                    servicename = env.SERVICENAME
-                    echo "${servicename}"
-                    for (sr in servicename.split(",") ){
-                        println("building ${sr}")
-                        def dockerrepo = "amirstudent3232/${sr}"
-                        sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
-                        sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
+                    sh '''
+                        pwd
+                        ls -a
+                        servicename=env.SERVICENAME
+                        echo $servicename
+                        for sr in servicename.split(","); do
+                            echo ("building ${sr}")
+                            dockerrepo = "amirstudent3232/${sr}"
+                            sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
+                            sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
+                        done
+                    '''
             }
         }
 //             sh '''
