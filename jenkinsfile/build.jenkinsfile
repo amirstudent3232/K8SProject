@@ -69,9 +69,9 @@ pipeline {
                     echo "${servicename}"
                     for (sr in servicename.split(",") ){
                         println(sr)
-//                         def dockerrepo = "amirstudent3232/${sr}"
-//                         sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
-//                         sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
+                        def dockerrepo = "amirstudent3232/${sr}"
+                        sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
+                        sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
             }
         }
 //             sh '''
