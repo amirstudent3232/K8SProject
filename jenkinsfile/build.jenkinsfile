@@ -59,7 +59,7 @@ pipeline {
                      println("the service is ")
                      println(SERVICES)
                      env.SERVICENAME = []
-                     env.SERVICENAME = SERVICES.split(',')
+                     env.SERVICENAME = SERVICES.split(',').collect { it.trim() }
                      println(env.SERVICENAME)
                     if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
                         error("The branch name is not correct or no service name provided; the job will stop now!.")
