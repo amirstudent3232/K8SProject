@@ -3,8 +3,8 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         COMMIT_MESSAGE = ''
-        FIRSTSERVICENAM = ''
-        SECONDSERVICENAM = ''
+        def FIRSTSERVICENAM = ''
+        def SECONDSERVICENAM = ''
     }
     stages {
         stage('Determine branch and service') {
