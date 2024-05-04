@@ -63,13 +63,13 @@ pipeline {
             steps {
                 sh '''
                     git checkout develop
-                    git merge env.branch
+                    git merge env.BRANCH_NAME
                 '''
              }
         }
         stage('Deploy job') {
-            when{
-                expresion {env.branch =~ "true"}
+            when {
+                expresion {env.BRANCH_NAME =~ "true"}
             }
             steps {
                 sh '''
