@@ -71,6 +71,7 @@ pipeline {
                         servicename=$SERVICENAME
                         echo $servicename
                         for sr in $servicename; do
+                            cd /var/lib/jenkins/workspace/amir-k8s-build-pipeline/${sr}
                             echo "building ${sr}"
                             dockerrepo = "amirstudent3232/${sr}"
                             docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
