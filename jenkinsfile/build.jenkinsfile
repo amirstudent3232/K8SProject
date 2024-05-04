@@ -82,13 +82,13 @@ pipeline {
             when{
                 expresion {env.branch =~ "true"}
             }
-                steps {
+            steps {
                 sh '''
                     for (sr in servicename){
                         sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
                     }
                 '''
-                }
+            }
         }
     }
 }
