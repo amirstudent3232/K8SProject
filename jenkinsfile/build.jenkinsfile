@@ -64,8 +64,9 @@ pipeline {
         stage('Build') {
             steps {
             sh '''
+                printenv
                 echo ${BUILD_NUMBER}
-                echo ${env.SERVICENAME}
+                //echo ${env.SERVICENAME}
 //                 for (sr in env.SERVICENAME){
 //                         dockerrepo=amirstudent3232/${sr}
 //                         docker build -t $dockerrepo:${BUILD_NUMBER} .
