@@ -64,7 +64,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def servicename = env.SERVICENAME
+
+                    def servicename = []
+                    servicename = env.SERVICENAME
                     echo "${servicename}"
                     for (String sr in servicename) {
                         println(sr)
