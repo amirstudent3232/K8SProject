@@ -13,10 +13,10 @@ pipeline {
                     def commitMessage = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}')
                     COMMIT_MESSAGE = commitMessage
                     println(env.COMMIT_MESSAGE)
-                    println("Branch: ${env.BRANCH_NAME}")
-                    if (env.BRANCH_NAME == "develop") {
+                    println("Branch: ${env.GIT_BRANCH}")
+                    if (env.GIT_BRANCH == "develop") {
                         env.branchname = "develop"
-                    } else if (env.BRANCH_NAME == "master") {
+                    } else if (env.GIT_BRANCH == "master") {
                         env.branchname = "master"
                     } else if (env.COMMIT_MESSAGE == "yolo") {
                         env.servicename.add("yolo")
@@ -67,17 +67,17 @@ pipeline {
                 }
             }
         }
-        stage('merge feat branch to develop or master branch') {
-            steps {
-                sh '''
-                    git checkout env.branchname}
-                    git merge env.BRANCH_NAME
-                '''
-             }
-        }
+//         stage('merge feat branch to develop or master branch') {
+//             steps {
+//                 sh '''
+//                     git checkout env.branchname}
+//                     git merge env.BRANCH_NAME
+//                 '''
+//              }
+//         }
         stage('Deploy job') {
             when {
-                expression {env.BRANCH_NAME =~ "true"}
+                expression {env.COMMIT_MESSAGE =~ "true"}
             }
             steps {
                 sh '''
