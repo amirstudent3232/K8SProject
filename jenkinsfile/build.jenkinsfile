@@ -63,14 +63,23 @@ pipeline {
         }
         stage('Build') {
             steps {
-            sh '''
-                echo ${SERVICENAME}
-                for sr in ${SERVICENAME}; do
-                        dockerrepo=amirstudent3232/${sr}
-                        docker build -t $dockerrepo:${BUILD_NUMBER} .
-                        docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
-                done
-            '''
+                script {
+                    def servicename = env.SERVICENAME
+                    echo "${servicename}"
+                    for (String sr : servicename) {
+                        def dockerrepo = "amirstudent3232/${sr}"
+                        sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
+                        sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
+            }
+        }
+//             sh '''
+//                 echo ${SERVICENAME}
+//                 for sr in ${SERVICENAME}; do
+//                         dockerrepo=amirstudent3232/${sr}
+//                         docker build -t $dockerrepo:${BUILD_NUMBER} .
+//                         docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
+//                 done
+//             '''
             }
         }
         stage('uploade image to dockerhub:') {
