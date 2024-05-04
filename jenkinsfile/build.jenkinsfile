@@ -19,22 +19,22 @@ pipeline {
                         println("amir 1")
                         a = "develop"
                         println(" my branch is: $a")
-                        env.branchname = a
+                        env.branchname = $a
                     }
                     if (env.GIT_BRANCH =~ "master") {
                         println("amir 2")
                         b = "master"
-                        env.branchname = b
+                        env.branchname = $b
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
                         c = "yolo"
-                        env.servicename += a
+                        env.servicename += $c
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
                         d = "poly"
-                        env.servicename += d
+                        env.servicename += $d
                         println(env.servicename)
                     }
                     println("the service is ")
