@@ -67,6 +67,7 @@ pipeline {
                 script {
                     sh '''
                         pwd
+                        printenv
                         ls -a
                         servicename=$SERVICENAME
                         echo $servicename
