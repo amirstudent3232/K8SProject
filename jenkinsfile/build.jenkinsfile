@@ -4,12 +4,13 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         def BRANCHNAME = '' // Initialize with an empty string
         def COMMIT_MESSAGE = ''
-        def list(name: "SERVICENAM")
+        def SERVICENAM = ''
     }
     stages {
         stage('Determine branch and service') {
             steps {
                 script {
+                    env.SERVICENAM = []
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     println(1)
                     println("Commit Message: ${COMMIT_MESSAGE}")
@@ -35,7 +36,6 @@ pipeline {
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
                         d = "poly"
-                        //env.SERVICENAM = []
                         env.SERVICENAM.add("poly")
                         println(env.SERVICENAM)
                     }
