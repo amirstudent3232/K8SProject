@@ -67,12 +67,12 @@ pipeline {
                 script {
                     sh '''
                         pwd
-                        printenv
+                        #printenv
                         ls -a
                         servicename=$SERVICENAME
                         echo $servicename
                         for sr in $servicename; do
-                            cd /var/lib/jenkins/workspace/amir-k8s-build-pipeline/${sr}
+                            cd ${WORKSPACE}/${sr}
                             echo "building ${sr}"
                             dockerrepo = "amirstudent3232/${sr}"
                             docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
