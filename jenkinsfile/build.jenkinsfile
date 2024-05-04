@@ -68,9 +68,9 @@ pipeline {
                     sh '''
                         pwd
                         ls -a
-                        servicename=env.SERVICENAME
+                        servicename=$SERVICENAME
                         echo $servicename
-                        for sr in servicename.split(","); do
+                        for sr in $servicename.split(","); do
                             echo ("building ${sr}")
                             dockerrepo = "amirstudent3232/${sr}"
                             sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
