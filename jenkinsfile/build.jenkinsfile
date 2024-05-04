@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        branchname = '' // Initialize with an empty string
-        servicename = ''//[] // Initialize with an empty list
+        def branchname = '' // Initialize with an empty string
+        def servicename = ''//[] // Initialize with an empty list
     }
     stages {
         stage('Determine branch and service') {
