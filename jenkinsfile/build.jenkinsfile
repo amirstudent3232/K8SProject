@@ -43,19 +43,21 @@ pipeline {
                         println("amir 5")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
                         servises = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
-                        env.SERVICENAME = servises//.split(",")
+                        //env.SERVICENAME = servises//.split(",")
                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
                         println("amir 6")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        env.SERVICENAME = [SECONDSERVICENAM]
+                        servises = SECONDSERVICENAM
+                        //env.SERVICENAME = [SECONDSERVICENAM]
                     }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
                         println("amir 8")
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        env.SERVICENAME = [FIRSTSERVICENAM]
+                        servicees = FIRSTSERVICENAM
+                        //env.SERVICENAME = [FIRSTSERVICENAM]
                     }
                      println("the service is ")
-                     println(env.SERVICENAME)
-                     env.SERVICENAME = env.SERVICENAME.split(",")
+                     println(servicees)
+                     env.SERVICENAME = servicees.split(",")
                      println(env.SERVICENAME)
                     if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
                         error("The branch name is not correct or no service name provided; the job will stop now!.")
