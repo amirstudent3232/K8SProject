@@ -36,7 +36,7 @@ pipeline {
                         println("amir 4")
                         d = "poly"
                         //env.SERVICENAM = []
-                        env.SERVICENAM.add(d)
+                        env.SERVICENAM.add("poly")
                         println(env.SERVICENAM)
                     }
                     println("the service is ")
