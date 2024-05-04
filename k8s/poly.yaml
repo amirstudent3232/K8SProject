@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: poly
-        image: amirstudent3232/k8s:0.1
+        image: amirstudent3232/k8s:0.2
         ports:
         - containerPort: 8443
         env:
@@ -28,22 +28,22 @@ spec:
             value: "AmirAWSpro"
           - name: BUCKET_NAME
             value: "sherman3"
-          - name: SQS_QUEUE_NAME
+          - name: SQS_QUEUE_URL
             value: "ShermanAWSSQSProject"
         resources:
           requests:
             memory: "200Mi"
             cpu: "128m"
           limits:
-            memory: "300Mi"
-            cpu: "256m"
+            memory: "1Gi"
+            cpu: "1"
         livenessProbe:
-          initialDelaySeconds: 10
-          httpGet:
+          initialDelaySeconds: 20
+         httpGet:
             path: "/"
             port: 8443
         readinessProbe:
-          initialDelaySeconds: 10
+          initialDelaySeconds: 20
           httpGet:
             path: "/"
             port: 8443
@@ -64,12 +64,11 @@ metadata:
   name: polyservice
 spec:
   selector:
-    app: polyservice
+    app: poly
   ports:
     - protocol: TCP
       port: 8443
       targetPort: 8443
-
 ---
 
 apiVersion: networking.k8s.io/v1
