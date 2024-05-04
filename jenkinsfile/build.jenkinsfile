@@ -18,13 +18,16 @@ pipeline {
                     if (env.GIT_BRANCH =~ "develop") {
                         println("amir 1")
                         env.branchname = "develop"
-                    } else if (env.GIT_BRANCH =~ "master") {
+                    }
+                    if (env.GIT_BRANCH =~ "master") {
                         println("amir 2")
                         env.branchname = "master"
-                    } else if (COMMIT_MESSAGE =~ "yolo") {
+                    }
+                    if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
                         env.servicename.add("yolo")
-                    } else if (COMMIT_MESSAGE =~ "poly") {
+                    }
+                    if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
                         env.servicename.add("poly")
                     }
