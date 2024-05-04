@@ -4,13 +4,14 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         def branchname = '' // Initialize with an empty string
         def servicename = ''//[] // Initialize with an empty list
+        def COMMIT_MESSAGE = ''
     }
     stages {
         stage('Determine branch and service') {
             steps {
                 script {
-                    def commitMessage = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim())
-                    env.COMMIT_MESSAGE = commitMessage
+                    def commitMessage = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                    COMMIT_MESSAGE = commitMessage
                     println(env.COMMIT_MESSAGE)
                     println("Branch: ${env.BRANCH_NAME}")
                     if (env.BRANCH_NAME == "develop") {
