@@ -65,7 +65,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    servicename = env.SERVICENAME //.split(",")
+                    sh "pwd"
+                    servicename = env.SERVICENAME
                     echo "${servicename}"
                     for (sr in servicename.split(",") ){
                         println("building ${sr}")
