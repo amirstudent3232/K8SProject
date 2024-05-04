@@ -10,6 +10,7 @@ pipeline {
                 script {
                     def FIRSTSERVICENAM = ''
                     def SECONDSERVICENAM = ''
+                    def servicees = ''
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     println(1)
                     println("Commit Message: ${COMMIT_MESSAGE}")
