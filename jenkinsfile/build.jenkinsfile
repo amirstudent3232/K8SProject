@@ -41,10 +41,10 @@ pipeline {
                     }else if (FIRSTSERVICENAM && SECONDSERVICENAM) {
                         println("amir 5")
                         env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
-                    }else if (!FIRSTSERVICENAM) {
+                    }else if (!FIRSTSERVICENAM && SECONDSERVICENAM) {
                         println("amir 6")
                         env.SERVICENAME = [SECONDSERVICENAM]
-                    }else if (!SECONDSERVICENAM) {
+                    }else if (FIRSTSERVICENAM && !SECONDSERVICENAM) {
                         println("amir 8")
                         env.SERVICENAME = [FIRSTSERVICENAM]
                     }
