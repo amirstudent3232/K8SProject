@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment{
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        IMAGE_URL = "amirstudent3232/K8SProject"
         branchname = null
         servicename = []
     }
@@ -44,16 +43,9 @@ pipeline {
             sh '''
                 echo ${BUILD_NUMBER}
                 for (sr in servicename){
-                    if (sr == yolo){
-                        dockerrepo=amirstudent3232/yolo
-                        docker build -t $sr:${BUILD_NUMBER} .
-                        docker tag $dockerrepo:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
-                    }
-                    if (sr == poly){
-                        dockerrepo=amirstudent3232/k8s
-                        docker build -t $sr:${BUILD_NUMBER} .
-                        docker tag $dockerrepo:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
-                    }
+                        dockerrepo=amirstudent3232/${sr}
+                        docker build -t $dockerrepo:${BUILD_NUMBER} .
+                        //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
                 }
             '''
             }
@@ -62,16 +54,9 @@ pipeline {
             steps {
             sh'''
             for (sr in servicename){
-                if (sr == yolo){
-                    dockerrepo=amirstudent3232/yolo
+                    dockerrepo=amirstudent3232/${sr}
                     echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
                     docker push $dockerrepo:${BUILD_NUMBER}
-                }
-                if (sr == poy){
-                    dockerrepo=amirstudent3232/k8s
-                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
-                    docker push $dockerrepo:${BUILD_NUMBER}
-                }
             }
             '''
             }
@@ -93,10 +78,14 @@ pipeline {
                 '''
              }
         }
-        stage('Trigger Deploy job') {
+        stage('Deploy job') {
             when (expresion (env.branch =~ "true")
                 steps {
-
+                sh '''
+                    for (sr in servicename){
+                        sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
+                    }
+                '''
                 }
         }
     }
