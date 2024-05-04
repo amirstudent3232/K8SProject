@@ -18,9 +18,9 @@ pipeline {
                         env.branchname = "develop"
                     } else if (env.BRANCH_NAME == "master") {
                         env.branchname = "master"
-                    } else if (env.Commit message == "yolo") {
+                    } else if (env.COMMIT_MESSAGE == "yolo") {
                         env.servicename.add("yolo")
-                    } else if (env.Commit message == "poly") {
+                    } else if (env.COMMIT_MESSAGE == "poly") {
                         env.servicename.add("poly")
                     }
                     println("the service is ")
