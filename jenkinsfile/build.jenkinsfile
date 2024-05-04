@@ -36,16 +36,20 @@ pipeline {
                         println(SECONDSERVICENAM)
                     }
                     if (FIRSTSERVICENAM && SECONDSERVICENAM == '') {
+                        println(FIRSTSERVICENAM " , " SECONDSERVICENAM)
                         error("no service has change the job will stop")
                         sh 'exit 1'
                     }else if (FIRSTSERVICENAM && SECONDSERVICENAM != '') {
                         println("amir 5")
+                        println(FIRSTSERVICENAM " , " SECONDSERVICENAM)
                         env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
                         println("amir 6")
+                        println(FIRSTSERVICENAM " , " SECONDSERVICENAM)
                         env.SERVICENAME = [SECONDSERVICENAM]
                     }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
                         println("amir 8")
+                        println(FIRSTSERVICENAM " , " SECONDSERVICENAM)
                         env.SERVICENAME = [FIRSTSERVICENAM]
                     }
                      println("the service is ")
