@@ -32,7 +32,7 @@ pipeline {
                 }
                 if (branchname == null || servicename ==[])
                     then {
-                        println ("the branch name is not correct the job will stop")
+                        println ("the branch name is not correct you nead to rename the branch the job will stop")
                         exit 1
                     }
                 }
