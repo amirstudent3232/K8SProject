@@ -31,7 +31,7 @@ pipeline {
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
-                        env.SECONDSERVICENAM = "poly"
+                        SECONDSERVICENAM = "poly"
                         println(env.SECONDSERVICENAM)
                     }
                     env.SERVICENAME = [env.FIRSTSERVICENAM,env.SECONDSERVICENAM]
