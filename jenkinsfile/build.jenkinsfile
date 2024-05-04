@@ -3,7 +3,8 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         COMMIT_MESSAGE = ''
-        SERVICENAM = "[]"
+        FIRSTSERVICENAM = ''
+        SECONDSERVICENAM = ''
     }
     stages {
         stage('Determine branch and service') {
@@ -28,13 +29,12 @@ pipeline {
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
-                        c = "yolo"
-                        env.SERVICENAM += $c
+                        env.FIRSTSERVICENAM = "yolo"
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
-                        env.SERVICENAM.add("poly")
-                        println(env.SERVICENAM)
+                        env.SECONDSERVICENAM = "poly"
                     }
+                    env.SERVICE = [env.FIRSTSERVICENAM,env.SECONDSERVICENAM]
                     println("the service is ")
                     println(env.servicename)
                     println("the branch is ")
