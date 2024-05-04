@@ -54,7 +54,7 @@ pipeline {
                     }
                      println("the service is ")
                      println(env.SERVICENAME)
-                    if (env.BRANCHNAME == null || env.SERVICENAME == null) {
+                    if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
                         error("The branch name is not correct or no service name provided; the job will stop now!.")
                         sh 'exit 1'
                     }
@@ -65,7 +65,7 @@ pipeline {
             steps {
             sh '''
                 echo ${BUILD_NUMBER}
-                for (sr in servicename){
+                for (sr in env.SERVICENAME){
                         dockerrepo=amirstudent3232/${sr}
                         docker build -t $dockerrepo:${BUILD_NUMBER} .
                         //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
@@ -76,7 +76,7 @@ pipeline {
         stage('uploade image to dockerhub:') {
             steps {
             sh'''
-            for (sr in servicename){
+            for (sr in env.SERVICENAME){
                     dockerrepo=amirstudent3232/${sr}
                     echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
                     docker push $dockerrepo:${BUILD_NUMBER}
@@ -107,7 +107,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    for (sr in servicename){
+                    for (sr in env.SERVICENAME){
                         sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
                     }
                 '''
