@@ -77,16 +77,7 @@ pipeline {
                             sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
                         done
                     '''
-            }
-        }
-//             sh '''
-//                 echo ${SERVICENAME}
-//                 for sr in ${SERVICENAME}; do
-//                         dockerrepo=amirstudent3232/${sr}
-//                         docker build -t $dockerrepo:${BUILD_NUMBER} .
-//                         docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
-//                 done
-//             '''
+                }
             }
         }
         stage('uploade image to dockerhub:') {
