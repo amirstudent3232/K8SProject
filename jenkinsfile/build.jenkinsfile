@@ -9,15 +9,17 @@ pipeline {
         stage('Determine branch and service') {
             steps {
                 script {
-                    // Assuming BRANCH_NAME is a custom environment variable you've set
+                    def commitMessage = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                    env.COMMIT_MESSAGE = commitMessage
+                    println(env.COMMIT_MESSAGE)
                     println("Branch: ${env.BRANCH_NAME}")
                     if (env.BRANCH_NAME == "develop") {
                         env.branchname = "develop"
                     } else if (env.BRANCH_NAME == "master") {
                         env.branchname = "master"
-                    } else if (env.BRANCH_NAME == "yolo") {
+                    } else if (env.Commit message == "yolo") {
                         env.servicename.add("yolo")
-                    } else if (env.BRANCH_NAME == "poly") {
+                    } else if (env.Commit message == "poly") {
                         env.servicename.add("poly")
                     }
                     println("the service is ")
