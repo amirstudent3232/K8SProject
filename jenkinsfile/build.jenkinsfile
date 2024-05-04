@@ -25,7 +25,7 @@ pipeline {
                     println("the branch is ")
                     println(env.branchname)
                     if (env.branchname == null || env.servicename == null) {
-                        error("The branch name is not correct or no service name provided; the job will stop.")
+                        error("The branch name is not correct or no service name provided; the job will stop now.")
                         sh 'exit 1'
                     }
                 }
