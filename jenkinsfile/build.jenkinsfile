@@ -18,6 +18,7 @@ pipeline {
                     if (env.GIT_BRANCH =~ "develop") {
                         println("amir 1")
                         a = "develop"
+                        println(" my branch is: $a")
                         env.branchname = a
                     }
                     if (env.GIT_BRANCH =~ "master") {
