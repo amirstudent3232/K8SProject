@@ -15,13 +15,13 @@ pipeline {
                     println("Commit Message: ${COMMIT_MESSAGE}")
                     println("Branch: ${env.GIT_BRANCH}")
                     println(2)
-                    if (${env.GIT_BRANCH} =~ "develop") {
+                    if (env.GIT_BRANCH =~ "develop") {
                         env.branchname = "develop"
-                    } else if (${env.GIT_BRANCH} =~ "master") {
+                    } else if (env.GIT_BRANCH =~ "master") {
                         env.branchname = "master"
-                    } else if (${COMMIT_MESSAGE} =~ "yolo") {
+                    } else if (COMMIT_MESSAGE =~ "yolo") {
                         env.servicename.add("yolo")
-                    } else if (${COMMIT_MESSAGE} =~ "poly") {
+                    } else if (COMMIT_MESSAGE =~ "poly") {
                         env.servicename.add("poly")
                     }
                     println("the service is ")
