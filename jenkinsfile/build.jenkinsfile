@@ -68,10 +68,10 @@ pipeline {
                     servicename = env.SERVICENAME //.split(",")
                     echo "${servicename}"
                     for (sr in servicename.split(",") ){
-                        println(sr)
+                        println("building ${sr}")
                         def dockerrepo = "amirstudent3232/${sr}"
-                        sh "DOCKER_BUILDKIT=1 docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
-                        sh "DOCKER_BUILDKIT=1 docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
+                        sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
+                        sh "docker tag ${dockerrepo}:${BUILD_NUMBER} ${dockerrepo}:${BUILD_NUMBER}"
             }
         }
 //             sh '''
