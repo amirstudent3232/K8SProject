@@ -34,7 +34,15 @@ pipeline {
                         SECONDSERVICENAM = "poly"
                         println(SECONDSERVICENAM)
                     }
-                    env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
+                    if (!FIRSTSERVICENAM && !SECONDSERVICENAM) {
+                        error("no service has change the job will stop")
+                        sh 'exit 1'
+                    }else if (FIRSTSERVICENAM && SECONDSERVICENAM) {
+                        env.SERVICENAME = [FIRSTSERVICENAM,SECONDSERVICENAM]
+                    }else if (!FIRSTSERVICENAM) {
+                        env.SERVICENAME = [SECONDSERVICENAM]
+                    }else if (!SECONDSERVICENAM)
+                    env.SERVICENAME = [FIRSTSERVICENAM]
                     println("the service is ")
                     println(env.SERVICENAME)
                     println("the branch is ")
