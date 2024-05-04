@@ -4,7 +4,7 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
         def BRANCHNAME = '' // Initialize with an empty string
         def COMMIT_MESSAGE = ''
-        def SERVICENAM = ''
+        def SERVICENAM = ['']
     }
     stages {
         stage('Determine branch and service') {
