@@ -66,9 +66,9 @@ pipeline {
                 script {
 
                     def servicename = []
-                    servicename = env.SERVICENAME
+                    servicename = env.SERVICENAME.split(,)
                     echo "${servicename}"
-                    for (sr in env.SERVICENAME) {
+                    for (sr in servicename) {
                         println(sr)
 //                         def dockerrepo = "amirstudent3232/${sr}"
 //                         sh "docker build -t ${dockerrepo}:${BUILD_NUMBER} ."
