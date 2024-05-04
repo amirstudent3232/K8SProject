@@ -79,7 +79,9 @@ pipeline {
              }
         }
         stage('Deploy job') {
-            when (expresion (env.branch =~ "true")
+            when{
+                (expresion (env.branch =~ "true")
+            }
                 steps {
                 sh '''
                     for (sr in servicename){
