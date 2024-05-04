@@ -65,7 +65,7 @@ pipeline {
             steps {
             sh '''
                 echo ${BUILD_NUMBER}
-                echo "the loop is for: ${env.SERVICENAME}"
+                echo ${env.SERVICENAME}
 //                 for (sr in env.SERVICENAME){
 //                         dockerrepo=amirstudent3232/${sr}
 //                         docker build -t $dockerrepo:${BUILD_NUMBER} .
