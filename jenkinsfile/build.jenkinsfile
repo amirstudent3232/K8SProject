@@ -66,6 +66,7 @@ pipeline {
             steps {
                 script {
                     sh "pwd"
+                    sh "ls -a"
                     servicename = env.SERVICENAME
                     echo "${servicename}"
                     for (sr in servicename.split(",") ){
