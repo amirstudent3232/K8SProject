@@ -80,8 +80,9 @@ pipeline {
                         for sr in $servicename; do
                             if [ $sr == "[yolo," ]; then
                                 cd ${WORKSPACE}/yolo
+                                pwd
                                 echo "building yolo"
-                                dockerrepo = "amirstudent3232/yolo"
+                                def dockerrepo = "amirstudent3232/yolo"
                                 docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
                                 docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
                             fi
