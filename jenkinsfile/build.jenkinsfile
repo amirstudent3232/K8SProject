@@ -137,7 +137,7 @@ pipeline {
                 expression {COMMIT_MESSAGE =~ "true"}
             }
             steps {
-                withCredentials([string(credentialsId: 'AMIR-TOKEN', variable: 'AMIR-TOKEN')]) {
+                withCredentials([string(credentialsId: 'amir-token', variable: 'AMIR-TOKEN')]) {
                 //withCredentials([usernamePassword(credentialsId: 'amir-sherman', passwordVariable: 'MAGE_REPO_PASS', usernameVariable: 'MAGE_REPO_USER')]) {
                 sh '''
                     servicename=$SERVICENAME
