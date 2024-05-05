@@ -104,6 +104,8 @@ pipeline {
             steps {
             sh'''
                 echo "start uploading images"
+                servicename=$SERVICENAME
+                echo "services ar: servicename"
                 for sr in $servicename; do
                     if [ $sr == "[yolo," ]; then
                         dockerrepo=amirstudent3232/yolo
