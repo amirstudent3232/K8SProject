@@ -134,7 +134,7 @@ pipeline {
         }
         stage('Deploy job') {
             when {
-                expression {env.COMMIT_MESSAGE =~ "true"}
+                expression {COMMIT_MESSAGE =~ "true"}
             }
             steps {
                 sh '''
