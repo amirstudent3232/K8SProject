@@ -147,10 +147,9 @@ pipeline {
                         fi
                         if [ $sr == "poly]" ]; then
                             sed -i -e "s|image:|image: amirstudent3232/poly:${BUILD_NUMBER}|" ${WORKSPACE}/k8s/poly.yaml
-                            echo "yolo yaml has been changed successfully"
+                            echo "poly yaml has been changed successfully"
                         fi
                     done
-                    }
                 '''
             }
         }
