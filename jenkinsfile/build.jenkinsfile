@@ -78,7 +78,7 @@ pipeline {
                         servicename=$SERVICENAME
                         echo $servicename
                         for sr in $servicename; do
-                            if [ $sr == "[yolo" ]; then
+                            if [ $sr == "[yolo," ]; then
                                 cd ${WORKSPACE}/yolo
                                 echo "building yolo"
                                 dockerrepo = "amirstudent3232/yolo"
