@@ -149,6 +149,7 @@ pipeline {
                     #git branch'
                     for sr in $servicename; do
                         if [ $sr == "[yolo," ]; then
+                            git checkout develop
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/yolo:${BUILD_NUMBER}|g" k8s/yolo.yaml
                             git add k8s/yolo.yaml
                             git commit -m "upgrade yolo image in the yam"
@@ -156,6 +157,7 @@ pipeline {
                             echo "yolo yaml has been changed successfully"
                         fi
                         if [ $sr == "poly]" ]; then
+                            git checkout develop
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
                             git add k8s/poly.yaml
                             git commit -m "upgrade poly image in the yam"
