@@ -153,7 +153,7 @@ pipeline {
                     git config --global user.email "amirstudent3232@gmail.com"
                     git config --global user.name "amirstudent3232"
                     git config --global credential.helper cache
-                    git remote set-url origin https://amirstudent3232:${AMIR-TOKEN}@github.com/amirstudent3232/K8SProject.git
+                    git remote set-url origin https://amirstudent3232:"${AMIR-TOKEN}"@github.com/amirstudent3232/K8SProject.git
                     #git checkout origin master
                     #git branch
                     #for sr in $servicename; do
@@ -161,7 +161,7 @@ pipeline {
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/yolo:${BUILD_NUMBER}|g" k8s/yolo.yaml
                             git add k8s/yolo.yaml
                             git commit -m "upgrade yolo image in the yam"
-                            git push https://amirstudent3232:L0Z0cher@github.com/amirstudent3232/K8SProject.git master
+                            git push https://amirstudent3232:"${AMIR-TOKEN}"@github.com/amirstudent3232/K8SProject.git master
                             #git push master
                             #git push master HEAD:master
                             echo "yolo yaml has been changed successfully"
@@ -170,7 +170,7 @@ pipeline {
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
                             git add k8s/poly.yaml
                             git commit -m "upgrade poly image in the yam"
-                            git push https://amirstudent3232:L0Z0cher@github.com/amirstudent3232/K8SProject.git master
+                            git push https://amirstudent3232:@github.com/amirstudent3232/K8SProject.git master
                             #git push origin master
                             #git push master HEAD:master
                             echo "poly yaml has been changed successfully"
