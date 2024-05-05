@@ -88,7 +88,7 @@ pipeline {
                                 echo "building yolo finished successfully"
                             fi
                             if [ $sr == "poly]" ]; then
-                                cd ${WORKSPACE}/poly
+                                cd ${WORKSPACE}/polybot
                                 echo "building poly"
                                 dockerrepo="amirstudent3232/poly"
                                 docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
