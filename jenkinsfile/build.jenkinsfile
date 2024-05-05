@@ -143,11 +143,11 @@ pipeline {
                     servicename=$SERVICENAME
                     echo "start updating the yamls"
 
-                    git config --global --add safe.directory /var/lib/jenkins/workspace/prod/releases-prod'
-                    git config --global user.email "amirstudent3232@gmail.com"'
-                    git config --global user.name "amirstudent3232"'
-                    git config --global credential.helper cache'
-                    git remote set-url origin https://${AMIR-TOKEN}:amirstudent3232@github.com/amirstudent3232/K8SProject.git"
+                    git config --global --add safe.directory /var/lib/jenkins/workspace/prod/releases-prod
+                    git config --global user.email "amirstudent3232@gmail.com"
+                    git config --global user.name "amirstudent3232"
+                    git config --global credential.helper cache
+                    git remote set-url origin https://${AMIR-TOKEN}:amirstudent3232@github.com/amirstudent3232/K8SProject.git
                     #git checkout develop'
                     #git branch'
                     for sr in $servicename; do
