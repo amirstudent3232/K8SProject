@@ -144,19 +144,15 @@ pipeline {
             }
             steps {
                 withCredentials([string(credentialsId: 'amir-token', variable: 'AMIR-TOKEN')]) {
-                //withCredentials([usernamePassword(credentialsId: 'amir-sherman', passwordVariable: 'MAGE_REPO_PASS', usernameVariable: 'MAGE_REPO_USER')]) {
                 sh '''
-                    servicename=$SERVICENAME
                     echo "start updating the yamls"
-
                     git config --global --add safe.directory /var/lib/jenkins/workspace/prod/releases-prod
                     git config --global user.email "amirstudent3232@gmail.com"
                     git config --global user.name "amirstudent3232"
                     git config --global credential.helper cache
                     git remote set-url origin https://amirstudent3232:"${AMIR-TOKEN}"@github.com/amirstudent3232/K8SProject.git
-                    #git checkout origin master
-                    #git branch
-                    #for sr in $servicename; do
+                    git checkout origin master
+                    git branch
                         if [ $FIRSTSERVICENAME == "yolo" ]; then
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/yolo:${BUILD_NUMBER}|g" k8s/yolo.yaml
                             git add k8s/yolo.yaml
@@ -168,17 +164,16 @@ pipeline {
                         fi
                         if [ $SECONDSERVICENAME == "poly" ]; then
                             echo "in if ff"
-                            sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
+                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/poly.yaml
                             git add k8s/poly.yaml
                             git commit --allow-empty -m "upgrade poly image in the yam"
                             echo "token is: ${AMIR-TOKEN}"
-                            git push https://amirstudent3232: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@github.com/amirstudent3232/K8SProject.git HEAD: master
-                            #git push origin master
+                            #git push https://amirstudent3232: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@github.com/amirstudent3232/K8SProject.git HEAD: master
+                            #git push origin releases
                             #git push master HEAD:master
                             echo "poly yaml has been changed successfully"
 
                         fi
-                    #done
                 '''
                 }
             }
