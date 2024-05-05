@@ -1,4 +1,3 @@
-apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: yolo
@@ -16,7 +15,7 @@ spec:
     spec:
       containers:
       - name: yolo
-        image: amirstudent3232/yolo:0.1
+        image: amirstudent3232/yolo:100amirstudent3232/yolo:0.1
         env:
           - name: REGION_NAME
             value: "eu-north-1"
