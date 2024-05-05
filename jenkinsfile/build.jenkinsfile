@@ -38,32 +38,32 @@ pipeline {
                         SECONDSERVICE = "poly"
                         println(SECONDSERVICE)
                     }
-                    if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
-                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        error("no service has change the job will stop")
-                        sh 'exit 1'
-                    }else if (FIRSTSERVICENAM != '' && SECONDSERVICENAM != '') {
-                        println("amir 5")
-                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        SERVICES = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
-                        //env.SERVICENAME = servises//.split(",")
-                    }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
-                        println("amir 6")
-                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        SERVICES = SECONDSERVICENAM
-                        //env.SERVICENAME = [SECONDSERVICENAM]
-                    }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
-                        println("amir 8")
-                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-                        SERVICES = FIRSTSERVICENAM
-                        //env.SERVICENAME = [FIRSTSERVICENAM]
-                    }
+//                     if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
+//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+//                         error("no service has change the job will stop")
+//                         sh 'exit 1'
+//                     }else if (FIRSTSERVICENAM != '' && SECONDSERVICENAM != '') {
+//                         println("amir 5")
+//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+//                         SERVICES = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
+//                         //env.SERVICENAME = servises//.split(",")
+//                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
+//                         println("amir 6")
+//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+//                         SERVICES = SECONDSERVICENAM
+//                         //env.SERVICENAME = [SECONDSERVICENAM]
+//                     }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
+//                         println("amir 8")
+//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+//                         SERVICES = FIRSTSERVICENAM
+//                         //env.SERVICENAME = [FIRSTSERVICENAM]
+//                     }
                      println("the service is ")
                      println(SERVICES)
                      env.FIRSTSERVICENAME = ''
                      env.FIRSTSERVICENAME = FIRSTSERVICE
                      env.SECONDSERVICENAME = ''
-                     env.SECONDSERVICENAME = SECONDSE
+                     env.SECONDSERVICENAME = SECONDSERVICE
                      env.SERVICENAME = []
                      env.SERVICENAME = SERVICES.split(',').collect { it.trim() }
                      println(env.SERVICENAME)
