@@ -85,13 +85,15 @@ pipeline {
                                 dockerrepo="amirstudent3232/yolo"
                                 docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
                                 docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
+                                echo "building yolo finished successfully"
                             fi
-                            if [[ $sr == "poly]" ]]; then
+                            if [ $sr == "poly]" ]; then
                                 cd ${WORKSPACE}/poly
                                 echo "building poly"
-                                dockerrepo = "amirstudent3232/poly"
+                                dockerrepo="amirstudent3232/poly"
                                 docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
                                 docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
+                                echo "building yolo finished successfully"
                             fi
                         done
                     '''
