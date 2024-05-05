@@ -147,11 +147,11 @@ pipeline {
                     echo "-----------------------"
                     for sr in $servicename; do
                         if [ $sr == "[yolo," ]; then
-                            sed -i -e "s|image:|image: amirstudent3232/yolo:${BUILD_NUMBER}|" ${WORKSPACE}/k8s/yolo.yaml
+                            sed -i -e "s|image: |image: amirstudent3232/yolo:${BUILD_NUMBER}|g" ${WORKSPACE}/k8s/yolo.yaml
                             echo "yolo yaml has been changed successfully"
                         fi
                         if [ $sr == "poly]" ]; then
-                            sed -i -e "s|image:|image: amirstudent3232/poly:${BUILD_NUMBER}|" ${WORKSPACE}/k8s/poly.yaml
+                            sed -i -e "s|image: |image: amirstudent3232/poly:${BUILD_NUMBER}|g" ${WORKSPACE}/k8s/poly.yaml
                             echo "poly yaml has been changed successfully"
                         fi
                     done
