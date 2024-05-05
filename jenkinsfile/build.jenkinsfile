@@ -87,7 +87,7 @@ pipeline {
                                 docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
                                 echo "building yolo finished successfully"
                             fi
-                            if [ $sr == "poly]" || $sr == "[' '[poly]" ]; then
+                            if [ $sr == "poly]" || $sr == "[poly]" ]; then
                                 cd ${WORKSPACE}/polybot
                                 echo "building poly"
                                 dockerrepo="amirstudent3232/poly"
@@ -113,7 +113,7 @@ pipeline {
                         docker push $dockerrepo:${BUILD_NUMBER}
                         echo "uploading yolo finished successfully"
                     fi
-                    if [ $sr == "poly]" || $sr == "[' '[poly]" ]; then
+                    if [ $sr == "poly]" || $sr == "[poly]" ]; then
                         dockerrepo=amirstudent3232/poly
                         echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
                         docker push $dockerrepo:${BUILD_NUMBER}
@@ -158,7 +158,7 @@ pipeline {
                             git push origin develop
                             echo "yolo yaml has been changed successfully"
                         fi
-                        if [ $sr == "poly]" || $sr == "[' '[poly]" ]; then
+                        if [ $sr == "poly]" || $sr == "[poly]" ]; then
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
                             git add k8s/poly.yaml
                             git commit -m "upgrade poly image in the yam"
