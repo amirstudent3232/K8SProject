@@ -140,6 +140,13 @@ pipeline {
                 sh '''
                     servicename=$SERVICENAME
                     echo "start updating the yamls"
+                    #git config --global --add safe.directory /var/lib/jenkins/workspace/prod/releases-prod'
+                    git config --global user.email "amirstudent3232@gmail.com"'
+                    git config --global user.name "amirstudent3232"'
+                    git config --global credential.helper cache'
+                    #git remote set-url origin https://amirstudent3232:${jenkinsclassicgithubtoken}@github.com/amirstudent3232/DevOps-Engineer-Final-Project-INT-College-Development-AWS-Kubernetes-CICD-Monitoring.git"
+                    #git checkout releases'
+                    #git branch'
                     for sr in $servicename; do
                         if [ $sr == "[yolo," ]; then
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/yolo:${BUILD_NUMBER}|g" k8s/yolo.yaml
