@@ -140,7 +140,7 @@ pipeline {
                 sh '''
                     servicename=$SERVICENAME
                     echo "start updating the yamls"
-                    for (sr in ${SERVICENAME}){
+                    for sr in $servicename; do
                         if [ $sr == "[yolo," ]; then
                             sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ${WORKSPACE}/k8s/yolo.yaml
                             echo "yolo yaml has been changed successfully"
@@ -149,6 +149,7 @@ pipeline {
                             sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ${WORKSPACE}/k8s/poly.yaml
                             echo "yolo yaml has been changed successfully"
                         fi
+                    done
                     }
                 '''
             }
