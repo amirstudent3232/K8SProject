@@ -167,6 +167,7 @@ pipeline {
                             echo "yolo yaml has been changed successfully"
                         fi
                         if [ $SECONDSERVICENAME == "poly" ]; then
+
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
                             git add k8s/poly.yaml
                             git commit --allow-empty -m "upgrade poly image in the yam"
