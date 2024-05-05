@@ -137,8 +137,8 @@ pipeline {
                 expression {COMMIT_MESSAGE =~ "true"}
             }
             steps {
-                //withCredentials([string(credentialsId: 'amir-k8s-tocken', variable: 'amir-k8s-tocken')]) {
-                withCredentials([usernamePassword(credentialsId: 'amir-sherman', passwordVariable: 'MAGE_REPO_PASS', usernameVariable: 'MAGE_REPO_USER')]) {
+                withCredentials([string(credentialsId: 'amir-token', variable: 'AMIR-TOKEN')]) {
+                //withCredentials([usernamePassword(credentialsId: 'amir-sherman', passwordVariable: 'MAGE_REPO_PASS', usernameVariable: 'MAGE_REPO_USER')]) {
                 sh '''
                     servicename=$SERVICENAME
                     echo "start updating the yamls"
@@ -147,7 +147,7 @@ pipeline {
                     git config --global user.email "amirstudent3232@gmail.com"'
                     git config --global user.name "amirstudent3232"'
                     git config --global credential.helper cache'
-                    git remote set-url origin https://github.com/amirstudent3232/K8SProject.git
+                    git remote set-url origin https://${AMIR-TOKEN}:amirstudent3232@github.com/amirstudent3232/K8SProject.git"
                     #git checkout develop'
                     #git branch'
                     for sr in $servicename; do
