@@ -11,6 +11,8 @@ pipeline {
             steps {
                 script {
                     def SERVICES = ''
+                    def FIRSTSERVICE = ''
+                    def SECONDSERVICE = ''
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     println(1)
                     println("Commit Message: ${COMMIT_MESSAGE}")
@@ -28,13 +30,13 @@ pipeline {
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
-                        FIRSTSERVICENAM = "yolo"
-                        println(FIRSTSERVICENAM)
+                        FIRSTSERVICE = "yolo"
+                        println(FIRSTSERVICE)
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
-                        SECONDSERVICENAM = "poly"
-                        println(SECONDSERVICENAM)
+                        SECONDSERVICE = "poly"
+                        println(SECONDSERVICE)
                     }
                     if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
@@ -58,6 +60,10 @@ pipeline {
                     }
                      println("the service is ")
                      println(SERVICES)
+                     env.FIRSTSERVICENAME = ''
+                     env.FIRSTSERVICENAME = FIRSTSERVICE
+                     env.SECONDSERVICENAME = ''
+                     env.SECONDSERVICENAME = SECONDSE
                      env.SERVICENAME = []
                      env.SERVICENAME = SERVICES.split(',').collect { it.trim() }
                      println(env.SERVICENAME)
