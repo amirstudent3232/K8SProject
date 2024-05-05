@@ -93,7 +93,7 @@ pipeline {
                                 dockerrepo="amirstudent3232/poly"
                                 docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
                                 docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
-                                echo "building yolo finished successfully"
+                                echo "building poly finished successfully"
                             fi
                         done
                     '''
@@ -103,11 +103,21 @@ pipeline {
         stage('uploade image to dockerhub:') {
             steps {
             sh'''
-            for (sr in ${SERVICENAME}){
-                    dockerrepo=amirstudent3232/${sr}
-                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
-                    docker push $dockerrepo:${BUILD_NUMBER}
-            }
+                echo "start uploading images"
+                for sr in $servicename; do
+                    if [ $sr == "[yolo," ]; then
+                        dockerrepo=amirstudent3232/yolo
+                        echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                        docker push $dockerrepo:${BUILD_NUMBER}
+                        echo "uploading yolo finished successfully"
+                    fi
+                    if [ $sr == "poly]" ]; then
+                        dockerrepo=amirstudent3232/poly
+                        echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                        docker push $dockerrepo:${BUILD_NUMBER}
+                        echo "uploading yolo finished successfully"
+                    fi
+                done
             '''
             }
             post {
@@ -120,25 +130,17 @@ pipeline {
                 }
             }
         }
-//         stage('merge feat branch to develop or master branch') {
+//         stage('Deploy job') {
+//             when {
+//                 expression {env.COMMIT_MESSAGE =~ "true"}
+//             }
 //             steps {
 //                 sh '''
-//                     git checkout env.branchname}
-//                     git merge env.BRANCH_NAME
+//                     for (sr in ${SERVICENAME}){
+//                         sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
+//                     }
 //                 '''
-//              }
+//             }
 //         }
-        stage('Deploy job') {
-            when {
-                expression {env.COMMIT_MESSAGE =~ "true"}
-            }
-            steps {
-                sh '''
-                    for (sr in ${SERVICENAME}){
-                        sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
-                    }
-                '''
-            }
-        }
     }
 }
