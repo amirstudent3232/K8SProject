@@ -30,12 +30,12 @@ pipeline {
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
                         println("amir 3")
-                        env.FIRSTSERVICENAM = "yolo"
+                        FIRSTSERVICENAM = "yolo"
                         println(FIRSTSERVICENAM)
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
                         println("amir 4")
-                        env.SECONDSERVICENAM = "poly"
+                        SECONDSERVICENAM = "poly"
                         println(SECONDSERVICENAM)
                     }
                     if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
