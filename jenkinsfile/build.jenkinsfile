@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        amir-token = credentials('AMIR-TOKEN')
+        AMIR-TOKEN = credentials('amir-token')
         COMMIT_MESSAGE = ''
     }
     stages {
