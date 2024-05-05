@@ -156,9 +156,8 @@ pipeline {
                         fi
                         if [ $sr == "poly]" ]; then
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
-                            # git commit -m "upgrade poly image in the yam"
-                            git commit: '-m "upgrade poly image in the yam"',
-                              userEmail: 'amirstudent3232@gmail.com',
+                            git add k8s/poly.yaml
+                            git commit -m "upgrade poly image in the yam"
                               userName: 'Jenkins'
                             git push
                             echo "poly yaml has been changed successfully"
