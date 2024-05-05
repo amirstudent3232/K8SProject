@@ -142,7 +142,7 @@ pipeline {
                     echo "start updating the yamls"
                     for sr in $servicename; do
                         if [ $sr == "[yolo," ]; then
-                            sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ${WORKSPACE}/k8s/yolo.yaml
+                            sed -i -e "s|image:|image: amirstudent3232/${sr}:${BUILD_NUMBER}|" ${WORKSPACE}/k8s/yolo.yaml
                             echo "yolo yaml has been changed successfully"
                         fi
                         if [ $sr == "poly]" ]; then
