@@ -117,7 +117,7 @@ pipeline {
                         dockerrepo=amirstudent3232/poly
                         echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
                         docker push $dockerrepo:${BUILD_NUMBER}
-                        echo "uploading yolo finished successfully"
+                        echo "uploading poly finished successfully"
                     fi
                 done
             '''
@@ -132,17 +132,17 @@ pipeline {
                 }
             }
         }
-//         stage('Deploy job') {
-//             when {
-//                 expression {env.COMMIT_MESSAGE =~ "true"}
-//             }
-//             steps {
-//                 sh '''
-//                     for (sr in ${SERVICENAME}){
-//                         sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
-//                     }
-//                 '''
-//             }
-//         }
+        stage('Deploy job') {
+            when {
+                expression {env.COMMIT_MESSAGE =~ "true"}
+            }
+            steps {
+                sh '''
+                    for (sr in ${SERVICENAME}){
+                        sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
+                    }
+                '''
+            }
+        }
     }
 }
