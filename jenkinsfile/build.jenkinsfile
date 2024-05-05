@@ -148,7 +148,7 @@ pipeline {
                     git config --global user.name "amirstudent3232"
                     git config --global credential.helper cache
                     git remote set-url origin https://amirstudent3232:${AMIR-TOKEN}@github.com/amirstudent3232/K8SProject.git
-                    #git checkout develop'
+                    git checkout develop'
                     #git branch
                     for sr in $servicename; do
                         if [ $sr == "[yolo," ]; then
