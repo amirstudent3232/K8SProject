@@ -1,63 +1,126 @@
 pipeline {
     agent any
-    environment{
+    environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        branchname = null
-        servicename = []
+        AMIR-TOKEN = credentials('amir-token')
+        COMMIT_MESSAGE = ''
     }
     stages {
-        //sh def buildNumber=${env.BUILD_NUMBER}
-        stage('determin branch and service') {
+        stage('Determine branch and service') {
             steps {
-                println(env.branch)
-                if (env.branch =~ "develop"){
-                    then {
-                        branchname = "develop"
+                script {
+                    def FIRSTSERVICENAM = ''
+                    def SECONDSERVICENAM = ''
+                    def SERVICES = ''
+                    COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
+                    println(1)
+                    println("Commit Message: ${COMMIT_MESSAGE}")
+                    println("Branch: ${env.GIT_BRANCH}")
+                    println(2)
+                    if (env.GIT_BRANCH =~ "develop") {
+                        //println("amir 1")
+                        env.BRANCHNAME = "develop"
+                        println(env.BRANCHNAME)
                     }
-                }
-                if (env.branch =~ "master"){
-                    then {
-                        branchname = "master"
+                    if (env.GIT_BRANCH =~ "master") {
+                        //println("amir 2")
+                        env.BRANCHNAME = "master"
+                        println(env.BRANCHNAME)
                     }
-                }
-                if (env.branch =~ "yolo"){
-                    then {
-                        servicename += "yolo"
+                    if (COMMIT_MESSAGE =~ "yolo") {
+                        //println("amir 3")
+                        FIRSTSERVICENAM = "yolo"
+                        println(FIRSTSERVICENAM)
                     }
-                }
-                if (env.branch =~ "poly"){
-                    then {
-                        servicename += "poly"
+                    if (COMMIT_MESSAGE =~ "poly") {
+                        //println("amir 4")
+                        SECONDSERVICENAM = "poly"
+                        println(SECONDSERVICENAM)
                     }
-                }
-                if (branchname == null || servicename ==[])
-                    then {
-                        println ("the branch name is not correct you nead to rename the branch the job will stop")
-                        exit 1
+                    if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
+                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+                        error("no service has change the job will stop")
+                        sh 'exit 1'
+                    }else if (FIRSTSERVICENAM != '' && SECONDSERVICENAM != '') {
+                        println("amir 5")
+                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+                        SERVICES = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
+                        //env.SERVICENAME = servises//.split(",")
+                    }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
+                        println("amir 6")
+                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+                        SERVICES = SECONDSERVICENAM
+                        //env.SERVICENAME = [SECONDSERVICENAM]
+                    }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
+                        println("amir 8")
+                        println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
+                        SERVICES = FIRSTSERVICENAM
+                        //env.SERVICENAME = [FIRSTSERVICENAM]
+                    }
+                     println("the service is ")
+                     println(SERVICES)
+                     env.SERVICENAME = []
+                     env.SERVICENAME = SERVICES.split(',').collect { it.trim() }
+                     println(env.SERVICENAME)
+                    if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
+                        error("The branch name is not correct or no service name provided; the job will stop now!.")
+                        sh 'exit 1'
                     }
                 }
             }
         }
         stage('Build') {
             steps {
-            sh '''
-                echo ${BUILD_NUMBER}
-                for (sr in servicename){
-                        dockerrepo=amirstudent3232/${sr}
-                        docker build -t $dockerrepo:${BUILD_NUMBER} .
-                        //docker tag $dockerrepo:${BUILD_NUMBER} $dockerrepo:${BUILD_NUMBER}
+                script {
+                    sh '''
+                        pwd
+                        #printenv
+                        ls -a
+                        servicename=$SERVICENAME
+                        echo $servicename
+                        for sr in $servicename; do
+                            if [ $sr == "[yolo," ]; then
+                                cd ${WORKSPACE}/yolo
+                                pwd
+                                echo "building yolo"
+                                dockerrepo="amirstudent3232/yolo"
+                                docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
+                                docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
+                                echo "building yolo finished successfully"
+                            fi
+                            if [ $sr == "poly]" ]; then
+                                cd ${WORKSPACE}/polybot
+                                echo "building poly"
+                                dockerrepo="amirstudent3232/poly"
+                                docker build -t "${dockerrepo}:${BUILD_NUMBER}" .
+                                docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
+                                echo "building poly finished successfully"
+                            fi
+                        done
+                    '''
                 }
-            '''
             }
         }
         stage('uploade image to dockerhub:') {
             steps {
             sh'''
-            for (sr in servicename){
-                    dockerrepo=amirstudent3232/${sr}
-                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
-                    docker push $dockerrepo:${BUILD_NUMBER}
-            }
+                echo "start uploading images"
+                servicename=$SERVICENAME
+                echo "services ar: servicename"
+                for sr in $servicename; do
+                    if [ $sr == "[yolo," ]; then
+                        dockerrepo=amirstudent3232/yolo
+                        echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                        docker push $dockerrepo:${BUILD_NUMBER}
+                        echo "uploading yolo finished successfully"
+                    fi
+                    if [ $sr == "poly]" ]; then
+                        dockerrepo=amirstudent3232/poly
+                        echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                        docker push $dockerrepo:${BUILD_NUMBER}
+                        echo "uploading poly finished successfully"
+                    fi
+                done
             '''
             }
             post {
@@ -70,23 +133,44 @@ pipeline {
                 }
             }
         }
-        stage('merge feat branch to develop or master branch') {
-            steps {
-                sh '''
-                    git checkout develop
-                    git merge env.branch
-                '''
-             }
-        }
         stage('Deploy job') {
-            when (expresion (env.branch =~ "true")
-                steps {
+            when {
+                expression {COMMIT_MESSAGE =~ "true"}
+            }
+            steps {
+                withCredentials([string(credentialsId: 'amir-token', variable: 'AMIR-TOKEN')]) {
+                //withCredentials([usernamePassword(credentialsId: 'amir-sherman', passwordVariable: 'MAGE_REPO_PASS', usernameVariable: 'MAGE_REPO_USER')]) {
                 sh '''
-                    for (sr in servicename){
-                        sed -i -e "s; image:| image: amirstudent3232/${sr}:${BUILD_NUMBER};g" ./k8s/${}sr}.yaml
-                    }
+                    servicename=$SERVICENAME
+                    echo "start updating the yamls"
+
+                    git config --global --add safe.directory /var/lib/jenkins/workspace/prod/releases-prod'
+                    git config --global user.email "amirstudent3232@gmail.com"'
+                    git config --global user.name "amirstudent3232"'
+                    git config --global credential.helper cache'
+                    git remote set-url origin https://${AMIR-TOKEN}:amirstudent3232@github.com/amirstudent3232/K8SProject.git"
+                    #git checkout develop'
+                    #git branch'
+                    for sr in $servicename; do
+                        if [ $sr == "[yolo," ]; then
+                            sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/yolo:${BUILD_NUMBER}|g" k8s/yolo.yaml
+                            git add k8s/yolo.yaml
+                            git commit -m "upgrade yolo image in the yam"
+                            git push origin develop
+                            echo "yolo yaml has been changed successfully"
+                        fi
+                        if [ $sr == "poly]" ]; then
+                            sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/poly:${BUILD_NUMBER}|g" k8s/poly.yaml
+                            git add k8s/poly.yaml
+                            git commit -m "upgrade poly image in the yam"
+                              userName: 'Jenkins'
+                            git push origin develop
+                            echo "poly yaml has been changed successfully"
+                        fi
+                    done
                 '''
                 }
+            }
         }
     }
 }
