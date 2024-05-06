@@ -59,8 +59,7 @@ pipeline {
                     }else if (env.FIRSTSERVICENAME == '' && env.SECONDSERVICENAME == "poly") {
                         massageToUser = 'Do you want To Continue? ' + 'the apps to build: ' + env.SECONDSERVICENAME
                     }else {
-                        println("ther is no service to build the job will stop")
-                        exit 1
+                        error("ther is no service to build the job will stop")
                     }
                     try {
                         timeout(time: 10, unit: 'MINUTES') {
@@ -84,8 +83,7 @@ pipeline {
                         env.ABORT_PIPELINE = 'true'
                     }
                     if (env.ABORT_PIPELINE == 'true'){
-                        println("the job aborted")
-                        exit 1
+                        error("the job aborted")
                     }
                 }
             }
