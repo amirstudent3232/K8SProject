@@ -51,7 +51,17 @@ pipeline {
         stage('triger waitToUserAction job') {
             steps {
                 script {
-                    def massageToUser = '------------------------------------Do you whant To Continue? ---------------------------------------------------' + 'the apps to build: ' + env.FIRSTSERVICENAME + ', ' + env.SECONDSERVICENAME
+                    def massageToUser = ''
+                    if (env.FIRSTSERVICENAME == "yolo" && env.SECONDSERVICENAME == "poly") {
+                        massageToUser = 'Do you want To Continue? ' + 'the apps to build: ' + env.FIRSTSERVICENAME + ', ' + env.SECONDSERVICENAME
+                    }else if (env.FIRSTSERVICENAME == "yolo" && env.SECONDSERVICENAME == '') {
+                        massageToUser = 'Do you want To Continue? ' + 'the apps to build: ' + env.FIRSTSERVICENAME
+                    }else if (env.FIRSTSERVICENAME == '' && env.SECONDSERVICENAME == "poly") {
+                        massageToUser = 'Do you want To Continue? ' + 'the apps to build: ' + env.SECONDSERVICENAME
+                    }else {
+                        println("ther is no service to build the job will stop")
+                        exit 1
+                    }
                     try {
                         timeout(time: 10, unit: 'MINUTES') {
                             /* groovylint-disable-next-line UnusedVariable */
