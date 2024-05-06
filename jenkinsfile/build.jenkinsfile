@@ -83,6 +83,10 @@ pipeline {
                         }
                         env.ABORT_PIPELINE = 'true'
                     }
+                    if (env.ABORT_PIPELINE == 'true'){
+                        println("the job aborted")
+                        exit 1
+                    }
                 }
             }
         }
