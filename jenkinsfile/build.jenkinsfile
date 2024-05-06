@@ -158,7 +158,7 @@ pipeline {
                             git add k8s/yolo.yaml
                             git commit --allow-empty -m "upgrade yolo image in the yam"
                             git push https://amirstudent3232:"${AMIR-TOKEN}"@github.com/amirstudent3232/K8SProject.git master
-                            #git push master
+                            #git push releases
                             #git push master HEAD:master
                             echo "yolo yaml has been changed successfully"
                         fi
@@ -167,9 +167,9 @@ pipeline {
                             sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/poly.yaml
                             git add k8s/poly.yaml
                             git commit --allow-empty -m "upgrade poly image in the yam"
-                            echo "token is: ${AMIR-TOKEN}"
+                            #echo "token is: ${AMIR-TOKEN}"
                             #git push https://amirstudent3232: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@github.com/amirstudent3232/K8SProject.git HEAD: master
-                            #git push origin releases
+                            git push origin releases
                             #git push master HEAD:master
                             echo "poly yaml has been changed successfully"
 
