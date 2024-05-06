@@ -53,6 +53,29 @@ pipeline {
                 }
             }
         }
+        stage('triger waitToUserAction job') {
+            steps {
+                script {
+                    def massageToUser = '------------------------------------Do you whant To Continue? ---------------------------------------------------' + 'the apps to build:  env.FIRSTSERVICENAME. env.SECONDSERVICENAME  try {
+                        timeout(time: 10, unit: 'MINUTES') {
+                            /* groovylint-disable-next-line UnusedVariable */
+                            Object userInput = input(
+                                id: 'confirmContinue',
+                                message: massageToUser,
+                                submitterParameter: 'CONFIRMED_BY',
+                                ok: 'Continue'
+                            )
+                            echo 'continue...'
+                        }
+                    }
+                    catch (e) {
+                        if (e.toString().contains('TimeoutStepExecution$ExceededTimeout')) {
+                            echo 'Timeout after 10 minutes. Execution is aborted.'
+                        }
+                        else {
+                            echo 'aborted...'
+                        }
+                        env.ABORT_PIPELINE = 'true'
         stage('Build') {
             steps {
                 script {
