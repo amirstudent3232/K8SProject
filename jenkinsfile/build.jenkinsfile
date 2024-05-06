@@ -75,7 +75,7 @@ pipeline {
                     }
                     catch (e) {
                         if (e.toString().contains('TimeoutStepExecution$ExceededTimeout')) {
-                            echo 'Timeout after 10 minutes. Execution is aborted.'
+                            echo 'Timeout after 10 minutes. Execution is aborted.   '
                         }
                         else {
                             echo 'aborted...'
