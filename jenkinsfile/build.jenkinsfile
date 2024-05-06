@@ -21,12 +21,12 @@ pipeline {
                     println(2)
                     if (env.GIT_BRANCH =~ "develop") {
                         println("amir 1")
-                        env.BRANCHNAME = "develop"
+                        env.BRANCHNAME = "dev"
                         println(env.BRANCHNAME)
                     }
                     if (env.GIT_BRANCH =~ "master") {
                         println("amir 2")
-                        env.BRANCHNAME = "master"
+                        env.BRANCHNAME = "prod"
                         println(env.BRANCHNAME)
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
@@ -179,7 +179,7 @@ pipeline {
                         fi
                         if [ $SECONDSERVICENAME == "poly" ]; then
                             echo "in if ff"
-                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/poly.yaml
+                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/poly.yaml
                             git add k8s/poly.yaml
                             git commit --allow-empty -m "upgrade poly image in the yam"
                             #echo "token is: ${AMIR_TOKEN}"
