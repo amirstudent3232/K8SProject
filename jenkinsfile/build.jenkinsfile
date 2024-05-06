@@ -5,7 +5,7 @@ pipeline {
         COMMIT_MESSAGE = ''
         def FIRSTSERVICENAM = ''
         def SECONDSERVICENAM = ''
-        AMIR-TOKEN = credentials('amir-token')
+
     }
     stages {
         stage('Determine branch and service') {
