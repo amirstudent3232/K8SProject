@@ -148,7 +148,7 @@ pipeline {
                             git commit --allow-empty -m "upgrade poly image in the yam"
                             #echo "token is: ${AMIR_TOKEN}"
                             git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases
-                            #git push origin releases
+                            ##git push origin releases
                             echo "poly yaml has been changed successfully!!"
 
                         fi
