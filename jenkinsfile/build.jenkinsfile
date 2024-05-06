@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('jenkinstoken')
-        AMIR_TOKEN = credentials('AMIR_TOKEN')
+        AMIR_TOKEN = credentials('amir-token')
         COMMIT_MESSAGE = ''
         def FIRSTSERVICENAM = ''
         def SECONDSERVICENAM = ''
