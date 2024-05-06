@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poly
+  labels:
+    app: poly
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poly
+  template:
+    metadata:
+        labels:
+          app: poly
+    spec:
+      containers:
+      - name: poly
+        image: amirstudent3232/poly:100
+        ports:
+        - containerPort: 8443
+        env:
+          - name: TELEGRAM_APP_URL
+            value: "https://amirawsroute.devops-int-college.com"
+          - name: REGION_NAME
+            value: "eu-north-1"
+          - name: DYNAMO_TABLE
+            value: "AmirAWSpro"
+          - name: BUCKET_NAME
+            value: "sherman3"
+          - name: SQS_QUEUE_URL
+            value: "ShermanAWSSQSProject"
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "128m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        livenessProbe:
+          initialDelaySeconds: 20
+         httpGet:
+            path: "/"
+            port: 8443
+        readinessProbe:
+          initialDelaySeconds: 20
+          httpGet:
+            path: "/"
+            port: 8443
+        volumeMounts:
+          - name: tls-secret
+            mountPath: /etc/tls-secret
+            readOnly: True
+      volumes:
+        - name: tls-secret
+          secret:
+            secretName: tls-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: polyservice
+spec:
+  selector:
+    app: poly
+  ports:
+    - protocol: TCP
+      port: 8443
+      targetPort: 8443
