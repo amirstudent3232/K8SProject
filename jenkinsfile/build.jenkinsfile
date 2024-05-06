@@ -180,7 +180,7 @@ pipeline {
                         if [ $SECONDSERVICENAME == "poly" ]; then
                             echo "in if ff"
                             sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/poly.yaml
-                            git add k8s/poly.yaml
+                            git add k8s/$BRANCHNAME/poly.yaml
                             git commit --allow-empty -m "upgrade poly image in the yam"
                             #echo "token is: ${AMIR_TOKEN}"
                             git config pull.ff only
