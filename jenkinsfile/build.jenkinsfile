@@ -144,7 +144,7 @@ pipeline {
                 expression {COMMIT_MESSAGE =~ "true"}
             }
             steps {
-                withCredentials([string(credentialsId: 'AMIR_TOKEN', variable: 'AMIR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'amir-token', variable: 'AMIR_TOKEN')]) {
                 sh '''
                     echo "start updating the yamls"
                     git config --global --add safe.directory /var/lib/jenkins/workspace/prod/releases-prod
