@@ -39,28 +39,6 @@ pipeline {
                         SECONDSERVICE = "poly"
                         println(SECONDSERVICE)
                     }
-//                     if (FIRSTSERVICENAM == '' && SECONDSERVICENAM == '') {
-//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-//                         error("no service has change the job will stop")
-//                         sh 'exit 1'
-//                     }else if (FIRSTSERVICENAM != '' && SECONDSERVICENAM != '') {
-//                         println("amir 5")
-//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-//                         SERVICES = "${FIRSTSERVICENAM},${SECONDSERVICENAM}"
-//                         //env.SERVICENAME = servises//.split(",")
-//                     }else if (FIRSTSERVICENAM == '' && SECONDSERVICENAM != '') {
-//                         println("amir 6")
-//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-//                         SERVICES = SECONDSERVICENAM
-//                         //env.SERVICENAME = [SECONDSERVICENAM]
-//                     }else if (FIRSTSERVICENAM != '' && !SECONDSERVICENAM == '') {
-//                         println("amir 8")
-//                         println("$FIRSTSERVICENAM , $SECONDSERVICENAM")
-//                         SERVICES = FIRSTSERVICENAM
-//                         //env.SERVICENAME = [FIRSTSERVICENAM]
-//                     }
-//                      println("the service is ")
-//                      println(SERVICES)
                      env.FIRSTSERVICENAME = ''
                      env.FIRSTSERVICENAME = FIRSTSERVICE
                      env.SECONDSERVICENAME = ''
@@ -170,8 +148,8 @@ pipeline {
                             git commit --allow-empty -m "upgrade poly image in the yam"
                             #echo "token is: ${AMIR_TOKEN}"
                             git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases
-                            ##git push origin releases
-                            echo "poly yaml has been changed successfully"
+                            #git push origin releases
+                            echo "poly yaml has been changed successfully!!"
 
                         fi
                 '''
