@@ -169,24 +169,21 @@ pipeline {
                     git config pull.ff only
                     git branch
                         if [ $FIRSTSERVICENAME == "yolo" ]; then
-                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/poly.yaml
-                            git add k8s/yolo.yaml
+                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/yolo.yaml
+                            git add k8s/$BRANCHNAME/yolo.yaml
                             git commit --allow-empty -m "upgrade yolo image in the yam"
-                            #git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git master
-                            git push origin releases
-                            #git push master HEAD:master
-                            echo "yolo yaml has been changed successfully"
-                        fi
-                        if [ $SECONDSERVICENAME == "poly" ]; then
-                            echo "in if ff"
-                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/poly.yaml
-                            git add k8s/$BRANCHNAME/poly.yaml
-                            git commit --allow-empty -m "upgrade poly image in the yam"
-                            #echo "token is: ${AMIR_TOKEN}"
                             git config pull.ff only
                             git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases || git pull origin releases
                             git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases
-                            ##git push origin releases
+                            echo "yolo yaml has been changed successfully"
+                        fi
+                        if [ $SECONDSERVICENAME == "poly" ]; then
+                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/poly.yaml
+                            git add k8s/$BRANCHNAME/poly.yaml
+                            git commit --allow-empty -m "upgrade poly image in the yam"
+                            git config pull.ff only
+                            git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases || git pull origin releases
+                            git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases
                             echo "poly yaml has been changed successfully!!"
 
                         fi
