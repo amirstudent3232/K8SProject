@@ -169,7 +169,7 @@ pipeline {
                     git config pull.ff only
                     git branch
                         if [ $FIRSTSERVICENAME == "yolo" ]; then
-                            sed -i -e \"s|image: .*|image: amirstudent3232/poly:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/yolo.yaml
+                            sed -i -e \"s|image: .*|image: amirstudent3232/yolo:${BUILD_NUMBER}|\" k8s/$BRANCHNAME/yolo.yaml
                             git add k8s/$BRANCHNAME/yolo.yaml
                             git commit --allow-empty -m "upgrade yolo image in the yam"
                             git config pull.ff only
