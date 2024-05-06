@@ -131,6 +131,7 @@ pipeline {
                     git config --global credential.helper cache
                     git remote set-url origin https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git
                     git checkout releases
+                    git pull
                     git branch
                         if [ $FIRSTSERVICENAME == "yolo" ]; then
                             sed -i -e "s|image: amirstudent3232/yolo:[0-9]\\+|image: amirstudent3232/yolo:${BUILD_NUMBER}|g" k8s/yolo.yaml
