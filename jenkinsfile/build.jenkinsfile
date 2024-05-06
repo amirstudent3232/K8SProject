@@ -45,11 +45,6 @@ pipeline {
                      env.SECONDSERVICENAME = SECONDSERVICE
                      env.SERVICENAME = []
                      env.SERVICENAME = SERVICES.split(',').collect { it.trim() }
-                     //println(env.SERVICENAME)
-//                     if (env.BRANCHNAME == null || env.BRANCHNAME == '') {
-//                         error("The branch name is not correct or no service name provided; the job will stop now!.")
-//                         sh 'exit 1'
-//                     }
                 }
             }
         }
@@ -77,8 +72,10 @@ pipeline {
                             echo 'aborted...'
                         }
                         env.ABORT_PIPELINE = 'true'
+                    }
                 }
             }
+        }
         stage('Build') {
             steps {
                 script {
