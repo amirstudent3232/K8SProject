@@ -39,7 +39,7 @@ spec:
             cpu: "1"
         livenessProbe:
           initialDelaySeconds: 20
-         httpGet:
+          httpGet:
             path: "/"
             port: 8443
         readinessProbe:
