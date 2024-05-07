@@ -99,4 +99,4 @@ class ObjectDetectionBot(Bot):
             sqs_client.send_message(QueueUrl=sqs_url, DelaySeconds = 10, MessageBody = str(msg))
 
             chat_id = msg['from']['id']  # amir...
-            self.send_text(chat_id, "Your image is being processed. Please wait...")
+            self.send_text(chat_id, "Your image is being processed. Please wait!!!!")
