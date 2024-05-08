@@ -15,27 +15,19 @@ pipeline {
                     def FIRSTSERVICE = ''
                     def SECONDSERVICE = ''
                     COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
-                    println(1)
-                    println("Commit Message: ${COMMIT_MESSAGE}")
-                    println("Branch: ${env.GIT_BRANCH}")
-                    println(2)
                     if (COMMIT_MESSAGE =~ "develop") {
-                        println("amir 1")
                         env.BRANCHNAME = "dev"
                         println(env.BRANCHNAME)
                     }
                     if (COMMIT_MESSAGE =~ "master") {
-                        println("amir 2")
                         env.BRANCHNAME = "prod"
                         println(env.BRANCHNAME)
                     }
                     if (COMMIT_MESSAGE =~ "yolo") {
-                        println("amir 3")
                         FIRSTSERVICE = "yolo"
                         println(FIRSTSERVICE)
                     }
                     if (COMMIT_MESSAGE =~ "poly") {
-                        println("amir 4")
                         SECONDSERVICE = "poly"
                         println(SECONDSERVICE)
                     }
@@ -92,12 +84,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        #pwd
-                        #printenv
-                        #ls -a
-                        #servicename=$SERVICENAME
-                        #echo $servicename
-                        #for sr in $servicename; do
                             if [ $FIRSTSERVICENAME == "yolo" ]; then
                                 cd ${WORKSPACE}/yolo
                                 pwd
@@ -115,7 +101,6 @@ pipeline {
                                 docker tag "${dockerrepo}:${BUILD_NUMBER}" "${dockerrepo}:${BUILD_NUMBER}"
                                 echo "building poly finished successfully"
                             fi
-                        #done
                     '''
                 }
             }
@@ -126,7 +111,6 @@ pipeline {
                 echo "start uploading images"
                 servicename=$SERVICENAME
                 echo "services ar: servicename"
-                #for sr in $servicename; do
                     if [ $FIRSTSERVICENAME == "yolo" ]; then
                         dockerrepo=amirstudent3232/yolo
                         echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
@@ -139,7 +123,6 @@ pipeline {
                         docker push $dockerrepo:${BUILD_NUMBER}
                         echo "uploading poly finished successfully"
                     fi
-                #done
             '''
             }
             post {
@@ -185,7 +168,6 @@ pipeline {
                             git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases || git pull origin releases
                             git push https://amirstudent3232:"${AMIR_TOKEN}"@github.com/amirstudent3232/K8SProject.git releases
                             echo "poly yaml has been changed successfully!!"
-
                         fi
                 '''
                 }
