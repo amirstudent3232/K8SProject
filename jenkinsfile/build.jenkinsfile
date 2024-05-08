@@ -19,12 +19,12 @@ pipeline {
                     println("Commit Message: ${COMMIT_MESSAGE}")
                     println("Branch: ${env.GIT_BRANCH}")
                     println(2)
-                    if (env.GIT_BRANCH =~ "develop") {
+                    if (COMMIT_MESSAGE =~ "develop") {
                         println("amir 1")
                         env.BRANCHNAME = "dev"
                         println(env.BRANCHNAME)
                     }
-                    if (env.GIT_BRANCH =~ "master") {
+                    if (COMMIT_MESSAGE =~ "master") {
                         println("amir 2")
                         env.BRANCHNAME = "prod"
                         println(env.BRANCHNAME)
