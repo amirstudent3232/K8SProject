@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: yolo
-        image: amirstudent3232/yolo:192
+        image: amirstudent3232/yolo:320
         env:
           - name: REGION_NAME
             value: "eu-north-1"
