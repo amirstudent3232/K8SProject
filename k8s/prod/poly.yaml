@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: poly
-        image: amirstudent3232/poly:322
+        image: amirstudent3232/poly:323
         ports:
         - containerPort: 8443
         env:
